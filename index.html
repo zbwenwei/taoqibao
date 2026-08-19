@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Taoqibao Schedule</title>
+<style>
+:root{
+  --bg:#f7f9fc;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb;
+  --blue:#4f7cff;--green:#39a96b;--orange:#f59e0b;--purple:#8b5cf6;--red:#ef4444;
+  --shadow:0 12px 28px rgba(15,23,42,.08);--radius:18px;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}
+.app{display:grid;grid-template-columns:235px 1fr;min-height:100vh}
+.sidebar{background:#fff;border-right:1px solid var(--border);padding:22px 16px;position:sticky;top:0;height:100vh}
+.brand{font-weight:900;font-size:22px;margin:4px 10px 22px}.brand span{color:var(--blue)}
+.nav button{width:100%;border:0;background:transparent;text-align:left;padding:12px 14px;border-radius:12px;margin:4px 0;cursor:pointer;color:#374151}
+.nav button.active,.nav button:hover{background:#eef3ff;color:var(--blue);font-weight:700}
+.main{padding:26px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.top h1{margin:0;font-size:28px}.sub{color:var(--muted);margin-top:5px}
+.balance{display:flex;gap:10px;flex-wrap:wrap}.pill{background:#fff;border:1px solid var(--border);padding:9px 12px;border-radius:999px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+.section{display:none}.section.active{display:block}.stat{font-size:30px;font-weight:800}.muted{color:var(--muted)}
+.btn{border:0;border-radius:11px;padding:10px 13px;cursor:pointer;font-weight:700}.btn-primary{background:var(--blue);color:white}.btn-green{background:var(--green);color:white}.btn-orange{background:var(--orange);color:white}.btn-ghost{background:#f3f4f6}.btn-danger{background:var(--red);color:white}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.toolbar input,.toolbar select{padding:10px;border:1px solid var(--border);border-radius:10px;background:white}
+.events{display:grid;gap:10px}.event{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--border);border-radius:14px;padding:13px;background:#fff}
+.event-left{display:flex;gap:10px;align-items:center}.dot{width:11px;height:11px;border-radius:50%}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.day{background:#fff;border:1px solid var(--border);border-radius:12px;min-height:130px;padding:10px}.mini{font-size:12px;padding:6px 7px;background:#eef3ff;border-radius:8px;margin-top:6px;cursor:pointer}
+.wheel-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}.wheel{width:280px;height:280px;border-radius:50%;margin:auto;background:conic-gradient(#4f7cff 0 22%,#39a96b 22% 39%,#f59e0b 39% 55%,#8b5cf6 55% 72%,#ec4899 72% 86%,#14b8a6 86% 100%);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 12px #fff,var(--shadow);transition:transform 1.8s cubic-bezier(.2,.8,.2,1)}.wheel:after{content:"SPIN";display:flex;align-items:center;justify-content:center;width:86px;height:86px;border-radius:50%;background:white;font-weight:800;border:1px solid var(--border)}
+.activity-row{display:grid;grid-template-columns:1.4fr .55fr .65fr auto;gap:8px;align-items:center;margin:8px 0}.activity-row input{width:100%;padding:9px;border:1px solid var(--border);border-radius:9px}
+.shop{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.reward{border:1px solid var(--border);border-radius:16px;padding:16px;background:white}.reward .emoji{font-size:38px}.price{font-weight:800;margin:8px 0}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.open{display:flex}.modal-card{background:white;border-radius:18px;padding:20px;width:min(620px,100%);max-height:90vh;overflow:auto;box-shadow:var(--shadow)}
+.form{display:grid;gap:11px}.form input,.form select,.form textarea{padding:11px;border:1px solid var(--border);border-radius:10px;width:100%}.form textarea{min-height:90px;resize:vertical}
+.event-editor-actions{position:sticky;bottom:-16px;z-index:4;background:#fff;padding:12px 0 2px;margin-top:2px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+#eventModal input,#eventModal textarea,#eventModal select,#eventModal button{font-size:16px}
+#eventModal .btn{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#eventModal input[readonly],#eventModal textarea[readonly]{background:#fff;color:inherit;opacity:1}
+body.modal-lock{overflow:hidden}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.right{text-align:right}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.detail-grid{display:grid;grid-template-columns:140px 1fr;gap:10px 14px;margin-top:12px}.detail-grid .label{color:var(--muted);font-weight:700}.link-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.toast{position:fixed;right:20px;bottom:20px;background:#111827;color:white;padding:12px 15px;border-radius:12px;opacity:0;transform:translateY(12px);transition:.25s;z-index:60}.toast.show{opacity:1;transform:none}
+.progress{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden}.progress>div{height:100%;background:var(--green);width:65%}
+
+
+.week-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 14px;padding:12px 14px;background:#f8fafc;border:1px solid var(--border);border-radius:14px}
+.week-title{text-align:center;flex:1}
+.week-title strong{display:block;font-size:18px}
+.week-title span{font-size:13px;color:var(--muted)}
+.week-nav{border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 11px;cursor:pointer;font-weight:800}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+.day-head .weekday{font-weight:800}
+.day-head .date-label{font-size:12px;color:var(--muted);font-weight:700}
+
+.category-legend{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 16px}
+.legend-item{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--border);padding:8px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.legend-swatch{width:12px;height:12px;border-radius:4px}
+.cat-workschool{background:#eaf0ff!important;border-left:4px solid #4f7cff!important}
+.cat-fixed{background:#eaf8f0!important;border-left:4px solid #39a96b!important}
+.cat-wheel{background:#f2ecff!important;border-left:4px solid #8b5cf6!important}
+.member-jerry{background:#eff6ff!important;border-left:5px solid #3b82f6!important}
+.member-henrik{background:#fff7ed!important;border-left:5px solid #f97316!important}
+.member-mom{background:#fdf2f8!important;border-left:5px solid #ec4899!important}
+.member-dad{background:#f0fdfa!important;border-left:5px solid #14b8a6!important}
+.member-family{background:#f5f3ff!important;border-left:5px solid #8b5cf6!important}
+
+.import-preview{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+.import-preview th,.import-preview td{border-bottom:1px solid var(--border);padding:8px;text-align:left;vertical-align:top}
+.ocr-status{padding:10px 12px;background:#f3f4f6;border-radius:10px;color:var(--muted)}
+.image-preview{max-width:100%;max-height:260px;border:1px solid var(--border);border-radius:12px;display:none;margin-top:10px}
+
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}.nav{display:flex;overflow:auto}.nav button{min-width:max-content}.main{padding:18px}.span-4,.span-6,.span-8{grid-column:span 12}.wheel-wrap{grid-template-columns:1fr}.calendar{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}}
+
+/* Per-member wallet cards */
+.member-balances{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.member-wallet{
+  background:#fff;border:1px solid var(--border);border-radius:16px;
+  padding:10px 12px;min-width:170px;box-shadow:0 6px 16px rgba(15,23,42,.05)
+}
+.member-wallet-name{font-size:14px;font-weight:900;margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.member-avatar{width:11px;height:11px;border-radius:50%;display:inline-block}
+.member-wallet-values{display:grid;grid-template-columns:1fr;gap:5px;font-size:14px;font-weight:800}
+.member-wallet-values span{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:7px 8px}
+
+/* Responsive desktop/tablet/mobile */
+.main{min-width:0}
+.card{min-width:0}
+.event{flex-wrap:wrap}
+.toolbar select,.toolbar input,.toolbar .btn{min-height:42px}
+.modal-card{width:min(680px,96vw)}
+.link-btns a,.link-btns button{flex:1 1 auto;text-align:center}
+
+@media(max-width:1100px){
+  .top{flex-direction:column;align-items:flex-start}
+  .member-balances{justify-content:flex-start;width:100%}
+  .grid{grid-template-columns:repeat(6,1fr)}
+  .span-4,.span-6,.span-8,.span-12{grid-column:span 6}
+}
+
+@media(max-width:760px){
+  body{font-size:15px}
+  .app{display:block}
+  .sidebar{
+    position:sticky;top:0;height:auto;z-index:20;
+    padding:10px 12px;border-right:0;border-bottom:1px solid var(--border)
+  }
+  .brand{font-size:19px;margin:2px 4px 8px}
+  .nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{min-width:max-content;padding:9px 11px;font-size:13px;margin:0}
+  .main{padding:14px}
+  .top{margin-bottom:14px}
+  .top h1{font-size:23px}
+  .sub{font-size:13px}
+  .member-balances{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%
+  }
+  .member-wallet{min-width:0;width:100%;padding:10px}
+  .member-wallet-name{font-size:13px}
+  .member-wallet-values{font-size:14px}
+  .grid{display:block}
+  .card{margin-bottom:12px;padding:14px}
+  .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .toolbar select,.toolbar input,.toolbar .btn{width:100%;margin:0}
+  .week-header{padding:9px}
+  .week-title strong{font-size:16px}
+  .week-title span{font-size:12px}
+  .category-legend{gap:6px}
+  .legend-item{font-size:12px;padding:6px 8px}
+  .calendar{display:grid;grid-template-columns:1fr;gap:8px}
+  .day{min-height:auto}
+  .mini{font-size:13px;padding:9px}
+  .event{align-items:flex-start;padding:11px}
+  .event .row{width:100%;justify-content:flex-end;margin-left:0}
+  .wheel-wrap{display:block}
+  .wheel{width:min(76vw,280px);height:min(76vw,280px);margin:8px auto 18px}
+  .activity-row{grid-template-columns:1fr 72px 72px 42px;gap:6px}
+  .activity-row input{font-size:13px;padding:8px;min-width:0}
+  .shop{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .reward{padding:12px}
+  .form-grid{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
+  .modal{padding:8px;align-items:flex-end}
+  .modal-card{width:100%;max-height:92vh;max-height:92dvh;border-radius:18px 18px 0 0;padding:16px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  #eventModal .modal-card{padding-bottom:max(16px,env(safe-area-inset-bottom))}
+  .event-editor-actions{bottom:calc(-16px - env(safe-area-inset-bottom));padding-bottom:max(10px,env(safe-area-inset-bottom))}
+  .import-preview{display:block;overflow-x:auto;white-space:nowrap}
+}
+
+@media(max-width:430px){
+  .member-balances{grid-template-columns:1fr}
+  .member-wallet-values{font-size:15px}
+  .shop{grid-template-columns:1fr}
+  .toolbar{grid-template-columns:1fr}
+  .activity-row{grid-template-columns:1fr 64px 64px 38px}
+  .top h1{font-size:21px}
+}
+
+
+.event-status{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800;
+  margin-top:5px
+}
+.status-planned{background:#f3f4f6;color:#4b5563}
+.status-pending{background:#fff7e6;color:#b45309;border:1px solid #fde3a7}
+.status-confirmed{background:#ecfdf3;color:#087443;border:1px solid #b7ebca}
+.complete-btn{white-space:nowrap}
+.approval-badge{
+  display:inline-flex;padding:5px 8px;background:#fff7e6;color:#b45309;
+  border:1px solid #fde3a7;border-radius:999px;font-size:11px;font-weight:900
+}
+.home-approval-list{display:grid;gap:7px;margin-top:10px}
+.home-approval-item{
+  border-top:1px solid var(--border);padding-top:8px;
+  display:flex;justify-content:space-between;gap:8px;align-items:center
+}
+.home-approval-item strong{font-size:12px}
+.home-approval-item .muted{font-size:11px}
+.home-approval-actions{display:flex;gap:5px}
+.home-approval-actions .btn{padding:6px 8px;font-size:11px}
+@media(max-width:760px){
+  .home-approval-item{align-items:flex-start;flex-direction:column}
+  .home-approval-actions{width:100%}
+  .home-approval-actions .btn{flex:1}
+  .event-actions{width:100%;display:flex;justify-content:flex-end;gap:7px}
+}
+
+
+.login-overlay{
+  position:fixed;inset:0;z-index:200;background:linear-gradient(135deg,#eef3ff,#f8fafc);
+  display:flex;align-items:center;justify-content:center;padding:20px
+}
+.login-overlay.hidden{display:none}
+.login-card{
+  width:min(720px,96vw);background:#fff;border:1px solid var(--border);border-radius:24px;
+  box-shadow:0 20px 60px rgba(15,23,42,.14);padding:24px
+}
+.login-title{text-align:center;margin-bottom:18px}
+.login-title h2{margin:0;font-size:28px}
+.login-users{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.user-choice{
+  border:1px solid var(--border);background:#fff;border-radius:18px;padding:18px 12px;
+  text-align:center;cursor:pointer;transition:.2s
+}
+.user-choice:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,23,42,.08);border-color:#c7d2fe}
+.user-avatar-large{
+  width:58px;height:58px;border-radius:50%;margin:0 auto 9px;display:flex;
+  align-items:center;justify-content:center;font-size:28px;background:#f3f4f6
+}
+.user-role{font-size:12px;color:var(--muted);margin-top:4px}
+.pin-panel{display:none;margin-top:18px;border-top:1px solid var(--border);padding-top:16px}
+.pin-panel.active{display:block}
+.pin-panel input{
+  width:160px;text-align:center;font-size:24px;letter-spacing:8px;padding:10px;
+  border:1px solid var(--border);border-radius:12px
+}
+.demo-pins{margin-top:16px;font-size:12px;color:var(--muted);text-align:center}
+.current-user-box{
+  display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);
+  border-radius:16px;padding:8px 10px
+}
+.current-user-name{font-weight:900;font-size:13px}
+.current-user-role{font-size:11px;color:var(--muted)}
+.user-menu-btn{border:0;background:#f3f4f6;border-radius:9px;padding:6px 8px;cursor:pointer}
+.user-menu{position:relative}
+.user-menu-pop{
+  display:none;position:absolute;right:0;top:44px;background:#fff;border:1px solid var(--border);
+  border-radius:12px;box-shadow:var(--shadow);padding:8px;min-width:150px;z-index:80
+}
+.user-menu-pop.open{display:block}
+.user-menu-pop button{
+  width:100%;border:0;background:transparent;text-align:left;padding:8px;border-radius:8px;cursor:pointer
+}
+.user-menu-pop button:hover{background:#f3f4f6}
+.child-note{
+  background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:10px 12px;
+  font-size:12px;color:var(--muted);margin-bottom:12px
+}
+@media(max-width:760px){
+  .login-users{grid-template-columns:repeat(2,1fr)}
+  .login-card{padding:16px}
+  .login-title h2{font-size:23px}
+  .current-user-box{width:100%;justify-content:space-between}
+}
+@media(max-width:420px){
+  .login-users{grid-template-columns:1fr 1fr}
+  .user-choice{padding:14px 8px}
+}
+
+
+.pin-settings-grid{display:grid;gap:12px}
+.pin-settings-section{border:1px solid var(--border);border-radius:14px;padding:14px;background:#fff}
+.pin-settings-section h4{margin:0 0 10px}
+.pin-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pin-row input,.pin-row select{width:100%;padding:10px;border:1px solid var(--border);border-radius:10px}
+.pin-help{font-size:12px;color:var(--muted);margin-top:6px}
+@media(max-width:600px){.pin-row{grid-template-columns:1fr}}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="login-title">
+      <h2>📅 Taoqibao Schedule</h2>
+      <div class="muted">Who are you?</div>
+    </div>
+
+    <div class="login-users">
+      <button class="user-choice" onclick="selectLoginUser('Mom')">
+        <div class="user-avatar-large">👩</div><strong>Mom</strong><div class="user-role">Parent</div>
+      </button>
+      <button class="user-choice" onclick="selectLoginUser('Dad')">
+        <div class="user-avatar-large">👨</div><strong>Dad</strong><div class="user-role">Parent</div>
+      </button>
+      <button class="user-choice" onclick="selectLoginUser('Jerry')">
+        <div class="user-avatar-large">👦</div><strong>Jerry</strong><div class="user-role">Child</div>
+      </button>
+      <button class="user-choice" onclick="selectLoginUser('Henrik')">
+        <div class="user-avatar-large">👦</div><strong>Henrik</strong><div class="user-role">Child</div>
+      </button>
+    </div>
+
+    <div class="pin-panel" id="pinPanel">
+      <div style="text-align:center">
+        <div style="font-weight:800;margin-bottom:10px" id="pinUserLabel">Enter PIN</div>
+        <input id="loginPin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••">
+        <div style="margin-top:12px">
+          <button class="btn btn-primary" onclick="loginSelectedUser()">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-pins">
+      First-use PIN for everyone: 123456. You can change it after login.
+    </div>
+  </div>
+</div>
+
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">📅 Taoqibao <span>Schedule</span></div>
+  <div class="nav">
+    <button class="active" data-page="home">🏠 Home</button>
+    <button data-page="schedule">📅 Schedule</button>
+    <button data-page="wheel">🎡 Spin Wheel</button>
+    <button data-page="rewards">⭐ Rewards</button>
+    <button data-page="shop">🛍️ Shop</button>
+  </div>
+</aside>
+
+<main class="main">
+<div class="top">
+  <div><h1 id="pageTitle">Taoqibao Schedule</h1><div class="sub" id="pageSubTitle">Family Schedule & Reward System</div></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start"><div id="serverStatus" class="pill" style="font-size:12px">Supabase: connecting…</div>
+    <div class="balance member-balances" id="memberBalances"></div>
+    <div class="user-menu">
+      <div class="current-user-box">
+        <div>
+          <div class="current-user-name" id="currentUserName">Not signed in</div>
+          <div class="current-user-role" id="currentUserRole"></div>
+        </div>
+        <button class="user-menu-btn" onclick="toggleUserMenu()">⋮</button>
+      </div>
+      <div class="user-menu-pop" id="userMenuPop">
+        <button onclick="openPinSettings()">PIN Settings</button>
+        <button onclick="switchUser()">Switch User</button>
+        <button onclick="logoutUser()">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="home" class="section active">
+<div class="grid">
+  <div class="card span-4"><div class="muted">Today's Events</div><div class="stat" id="todayEventCount">4</div></div>
+  <div class="card span-4">
+    <div class="row" style="justify-content:space-between">
+      <div>
+        <div class="muted">Pending Approval</div>
+        <div class="stat" id="pendingCount">1</div>
+      </div>
+      <span class="approval-badge">Parent</span>
+    </div>
+    <div id="homeApprovalList" class="home-approval-list"></div>
+  </div>
+  <div class="card span-4"><div class="muted">Family Progress</div><div class="stat">65%</div><div class="progress"><div></div></div></div>
+  <div class="card span-8"><h3>Today's Schedule</h3><div id="todayEvents" class="events"></div></div>
+  <div class="card span-4"><h3>Quick Actions</h3><div class="events">
+    <button class="btn btn-primary" onclick="openEventModal()">＋ Add Event</button>
+    <button class="btn btn-green" onclick="go('wheel')">🎡 Spin Activity</button>
+    <button class="btn btn-orange" onclick="go('shop')">🎁 Open Shop</button>
+  </div></div>
+</div>
+</section>
+
+<section id="schedule" class="section">
+<div class="card">
+  <div class="toolbar">
+    <select id="memberFilter" onchange="renderSchedule()"><option value="All">All Family</option><option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option>Family</option></select>
+    <select id="categoryFilter" onchange="renderSchedule()">
+      <option value="All">All Categories</option>
+      <option value="work_school">Work / School</option>
+      <option value="activities">Activities</option>
+      <option value="challenges">Challenges</option>
+      <option value="spin_wheel">Spin Wheel</option>
+    </select>
+    <select id="scheduleView"><option>Week View</option><option>Day View</option><option>Month View</option></select>
+    <button class="btn btn-primary" onclick="openEventModal()">＋ Add Event</button>
+    <button class="btn btn-green parent-only" onclick="openImportModal()">📷 Import from Image</button>
+    <button class="btn btn-orange parent-only" onclick="openCalendarImportModal()">📅 Import Calendar (.ics / URL)</button>
+  </div>
+
+  <div class="week-header">
+    <button class="week-nav" onclick="changeWeek(-1)">‹</button>
+    <div class="week-title">
+      <strong id="weekNumberLabel">Vecka 33</strong>
+      <span id="weekRangeLabel">10 aug – 16 aug 2026</span>
+    </div>
+    <button class="week-nav" onclick="changeWeek(1)">›</button>
+  </div>
+
+  <div class="category-legend">
+    <div class="legend-item"><span class="legend-swatch" style="background:#3b82f6"></span>Jerry</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#f97316"></span>Henrik</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#ec4899"></span>Mom</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#14b8a6"></span>Dad</div>
+    <div class="legend-item"><span class="legend-swatch" style="background:#8b5cf6"></span>Family</div>
+  </div>
+  <div class="calendar" id="calendar"></div>
+</div>
+</section>
+
+<section id="wheel" class="section">
+<div class="grid">
+  <div class="card span-6"><h3>Spin Wheel</h3><div class="wheel-wrap">
+    <div><div id="wheelObj" class="wheel"></div><div style="text-align:center;margin-top:16px"><button class="btn btn-green" onclick="spinWheel()">SPIN 🎡</button></div></div>
+    <div><div class="muted">Selected Activity</div><h2 id="selectedActivity">—</h2><button class="btn btn-primary" onclick="addSelectedToSchedule()">Add to Schedule</button></div>
+  </div></div>
+  <div class="card span-6 parent-only"><h3>Activity Database</h3><div id="activityList"></div><button class="btn btn-ghost" onclick="addActivity()">＋ Add Activity</button></div>
+</div>
+</section>
+
+<section id="rewards" class="section">
+<div class="grid">
+  <div class="card span-6"><h3>Pending Completion Approval</h3><div id="approvalList"></div></div>
+  <div class="card span-6 parent-only"><h3>Points → Coins</h3><p>10 Points = 1 Coin</p>
+<div class="row">
+  <select id="exchangeMember" style="padding:10px;border:1px solid var(--border);border-radius:10px">
+    <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option>
+  </select>
+  <input id="exchangePoints" type="number" min="10" step="10" value="50" style="padding:10px;border:1px solid var(--border);border-radius:10px;width:140px">
+  <button class="btn btn-orange" onclick="exchangePointsFn()">Exchange</button>
+</div>
+<p class="muted">Each family member keeps a separate Points and Coins balance.</p></div>
+  <div class="card span-12"><h3>Transaction History</h3><div id="history"></div></div>
+</div>
+</section>
+
+<section id="shop" class="section">
+<div class="card">
+<div class="row" style="justify-content:space-between">
+  <div class="row">
+    <h3>Reward Shop</h3>
+    <select id="shopMember" onchange="renderShop()" style="padding:9px;border:1px solid var(--border);border-radius:10px">
+      <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option>
+    </select>
+  </div>
+  <button class="btn btn-primary parent-only" onclick="openRewardModal()">＋ Add Reward</button>
+</div>
+<div id="shopGrid" class="shop"></div>
+</div>
+</section>
+</main>
+</div>
+
+<div class="modal" id="eventModal"><div class="modal-card">
+<h3 id="eventModalTitle">Add Schedule Event</h3>
+<div class="form" id="eventEditorForm" autocomplete="new-password" data-form-type="other"><input type="text" tabindex="-1" aria-hidden="true" autocomplete="username" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><input type="password" tabindex="-1" aria-hidden="true" autocomplete="new-password" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+  <div class="form-grid"><input id="evTitle" name="schedule_activity_title" placeholder="Activity name" autocomplete="new-password" autocapitalize="sentences" data-lpignore="true" data-1p-ignore="true" readonly><select id="evMember" autocomplete="off"><option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option>Family</option></select></div>
+  <select id="evCategory" autocomplete="off">
+    <option value="work_school">Work / School</option>
+    <option value="activities" selected>Activities</option>
+    <option value="challenges">Challenges</option>
+    <option value="spin_wheel">Spin Wheel</option>
+  </select>
+  <div class="form-grid"><input id="evDate" type="date" autocomplete="off"><input id="evTime" type="time" value="17:00" autocomplete="off"></div>
+  <div class="form-grid"><input id="evEndTime" type="time" value="18:00" autocomplete="off"><input id="evPoints" type="number" min="0" value="10" placeholder="Points" autocomplete="off"></div>
+  <div class="form-grid">
+    <select id="evRepeat" autocomplete="off" onchange="toggleRepeatOptions()">
+      <option value="none">Does not repeat</option>
+      <option value="daily">Repeat daily</option>
+      <option value="weekly">Repeat weekly</option>
+      <option value="monthly">Repeat monthly</option>
+    </select>
+    <input id="evRepeatCount" type="number" min="2" max="100" value="4" placeholder="Number of occurrences" autocomplete="off" style="display:none">
+  </div>
+  <div id="repeatHint" class="muted" style="display:none;margin-top:-4px">The first date is included. Each occurrence is saved as its own activity.</div>
+  <input id="evLocation" name="schedule_place_label" placeholder="Location name, e.g. Malmö Arena" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
+  <input id="evAddress" name="schedule_map_query" placeholder="Full address for Google Maps" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
+  <input id="evWeb" name="schedule_reference_link" type="text" placeholder="Website URL, e.g. https://..." autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
+  <input id="evEmail" name="schedule_contact_note" type="text" placeholder="Contact email" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
+  <textarea id="evDescription" name="schedule_activity_notes" placeholder="Activity details / notes" autocomplete="new-password" data-lpignore="true" data-1p-ignore="true" readonly></textarea>
+  <select id="evReminder" autocomplete="off"><option>10 min before</option><option>30 min before</option><option>1 hour before</option><option>1 day before</option><option>No reminder</option></select>
+  <div class="event-editor-actions"><button type="button" class="btn btn-ghost" onclick="closeModal('eventModal')">Cancel</button><button type="button" id="saveEventBtn" class="btn btn-primary" onclick="saveEvent()">Save</button></div>
+</div></div></div>
+
+<div class="modal" id="detailModal"><div class="modal-card">
+  <div class="row" style="justify-content:space-between"><h3 id="detailTitle">Activity Details</h3><button class="btn btn-ghost" onclick="closeModal('detailModal')">✕</button></div>
+  <div id="detailContent"></div>
+</div></div>
+
+
+<div class="modal" id="importModal"><div class="modal-card">
+  <div class="row" style="justify-content:space-between">
+    <h3>📷 Import Schedule from Image</h3>
+    <button class="btn btn-ghost" onclick="closeModal('importModal')">✕</button>
+  </div>
+  <p class="muted">Upload a school timetable or work rota. OCR will extract text first; review the rows before importing.</p>
+  <div class="form">
+    <div class="form-grid">
+      <select id="importMember">
+        <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option>
+      </select>
+      <select id="importCategory">
+        <option value="work_school">Work / School</option>
+        <option value="activities">Activities</option>
+        <option value="challenges">Challenges</option>
+      </select>
+    </div>
+    <input id="importDefaultDate" type="date" value="2026-08-10">
+    <input id="scheduleImage" type="file" accept="image/*" onchange="previewImportImage(event)">
+    <img id="importImagePreview" class="image-preview" alt="Schedule preview">
+    <button class="btn btn-green" onclick="recognizeScheduleImage()">🔎 Recognize Image</button>
+    <div id="ocrStatus" class="ocr-status">No image recognized yet.</div>
+    <textarea id="ocrText" placeholder="OCR text will appear here. You can correct it before parsing." style="min-height:150px"></textarea>
+    <button class="btn btn-primary" onclick="parseOCRText()">Create Import Preview</button>
+    <div id="importPreviewWrap"></div>
+    <div class="right">
+      <button class="btn btn-ghost" onclick="closeModal('importModal')">Cancel</button>
+      <button class="btn btn-orange" onclick="confirmOCRImport()">Confirm Import</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal" id="calendarImportModal"><div class="modal-card">
+  <div class="row" style="justify-content:space-between">
+    <h3>📅 Import Calendar</h3>
+    <button class="btn btn-ghost" onclick="closeModal('calendarImportModal')">✕</button>
+  </div>
+  <p class="muted">Import a standard <strong>.ics / .ical</strong> file, or paste a public calendar subscription URL from Google Calendar, Apple/iCloud, Outlook or another calendar service. Review the events before saving them to the family schedule.</p><div class="ocr-status" style="margin-bottom:10px"><strong>Auto owner detection:</strong> Jerry = 15 · Henrik = 18. Names are checked first; player-number markers such as #15, No. 15, Nr 18, Player 18 or Spelare 18 are also recognized. If both are found, the event is marked Family. You can change the owner in the preview.</div>
+  <div class="form">
+    <div class="form-grid">
+      <select id="calendarImportMember" onchange="if(calendarImportRows.length)renderCalendarImportPreview()" title="Fallback owner when no name/player number is detected">
+        <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option>Family</option>
+      </select>
+      <select id="calendarImportCategory">
+        <option value="work_school">Work / School</option>
+        <option value="activities" selected>Activities</option>
+        <option value="challenges">Challenges</option>
+        <option value="spin_wheel">Spin Wheel</option>
+      </select>
+    </div>
+    <div class="card" style="padding:12px">
+      <strong>Option 1 · Calendar file</strong>
+      <input id="calendarFile" style="margin-top:8px" type="file" accept=".ics,.ical,text/calendar" onchange="readCalendarFile(event)">
+    </div>
+    <div class="card" style="padding:12px">
+      <strong>Option 2 · Calendar URL</strong>
+      <div class="row" style="margin-top:8px;align-items:stretch">
+        <input id="calendarUrl" style="flex:1;min-width:240px" inputmode="url" placeholder="https://... or webcal://...">
+        <button class="btn btn-green" type="button" onclick="readCalendarUrl()">Load URL</button>
+      </div>
+      <div class="muted" style="margin-top:6px">Use a public/private calendar subscription URL that returns iCalendar (.ics) data. The URL is fetched by your NAS.</div>
+    </div>
+    <div id="calendarImportStatus" class="ocr-status">Choose an .ics/.ical file or enter a calendar URL.</div>
+    <div id="calendarImportPreviewWrap"></div>
+    <div class="right">
+      <button class="btn btn-ghost" onclick="closeModal('calendarImportModal')">Cancel</button>
+      <button class="btn btn-orange" onclick="confirmCalendarImport()">Confirm Import</button>
+    </div>
+  </div>
+</div></div>
+
+<div class="modal" id="rewardModal"><div class="modal-card">
+<h3>Add Shop Reward</h3>
+<div class="form">
+<input id="rwName" placeholder="Reward name"><input id="rwEmoji" placeholder="Emoji" value="🎁"><input id="rwPrice" type="number" min="1" value="10">
+<div class="right"><button class="btn btn-ghost" onclick="closeModal('rewardModal')">Cancel</button> <button class="btn btn-primary" onclick="saveReward()">Save</button></div>
+</div></div></div>
+
+
+<div class="modal" id="pinSettingsModal"><div class="modal-card">
+  <div class="row" style="justify-content:space-between">
+    <h3>🔐 PIN Settings</h3>
+    <button class="btn btn-ghost" onclick="closeModal('pinSettingsModal')">✕</button>
+  </div>
+  <div class="pin-settings-grid">
+    <div class="pin-settings-section">
+      <h4>Change My PIN</h4>
+      <div class="pin-row">
+        <input id="currentPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Current PIN">
+        <input id="newPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="New 6-digit PIN">
+      </div>
+      <div class="pin-row" style="margin-top:10px">
+        <input id="confirmPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Confirm new PIN">
+        <button class="btn btn-primary" onclick="changeOwnPin()">Change PIN</button>
+      </div>
+      <div class="pin-help">Your new PIN is saved on this browser/device.</div>
+    </div>
+
+    <div class="pin-settings-section" id="parentPinAdmin">
+      <h4>Reset Child PIN</h4>
+      <div class="pin-row">
+        <select id="resetChildSelect"><option>Jerry</option><option>Henrik</option></select>
+        <input id="resetChildPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="New 6-digit PIN">
+      </div>
+      <div class="right" style="margin-top:10px">
+        <button class="btn btn-orange" onclick="resetChildPin()">Reset Child PIN</button>
+      </div>
+      <div class="pin-help">Only Parent accounts can reset a child's PIN.</div>
+    </div>
+  </div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+const SUPABASE_URL="https://ghgysgopewrcusgalnay.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdoZ3lzZ29wZXdyY3VzZ2FsbmF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMDc5MzIsImV4cCI6MjEwMjY4MzkzMn0.XanSFsRDSsZf-Hj23g88mkIoe-I97iyjyrpHb4cg7as";
+const FAMILY_EMAILS={Mom:"mom@family.local",Dad:"dad@family.local",Jerry:"jerry@family.local",Henrik:"henrik@family.local"};
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+let state={
+  wallets:{Jerry:{points:0,coins:0,color:"#4f7cff"},Henrik:{points:0,coins:0,color:"#39a96b"},Mom:{points:0,coins:0,color:"#f59e0b"},Dad:{points:0,coins:0,color:"#8b5cf6"}},
+  selected:null,currentWeekStart:"2026-08-10",events:[],activities:[],rewards:[],history:[]
+};
+let currentUser=null, selectedLoginUser=null, importRows=[];
+
+function setServerStatus(ok,msg){
+  const el=document.getElementById("serverStatus");
+  if(!el)return;
+  el.textContent=ok?`Supabase: ${msg||"online"}`:`Supabase: ${msg||"offline"}`;
+  el.style.color=ok?"#087443":"#b91c1c";
+}
+async function loadUserProfile(authUser){
+  const {data,error}=await sb.from("profiles").select("name,role,avatar").eq("id",authUser.id).single();
+  if(error||!data) throw new Error("No family profile found for this account. Ask a parent to set it up in Supabase.");
+  currentUser={name:data.name,role:data.role,avatar:data.avatar,email:authUser.email};
+}
+async function loadServerState(){
+  const {data,error}=await sb.from("app_state").select("data,updated_at").eq("id",1).single();
+  if(error) throw error;
+  state=data.data;
+  if(!state.selected) state.selected=null;
+  renderAll();
+}
+async function saveServerState(){
+  const {data,error}=await sb.from("app_state").update({data:state,updated_at:new Date().toISOString()}).eq("id",1).select("data").single();
+  if(error) throw error;
+  state=data.data;
+  renderAll();
+}
+async function boot(){
+  try{
+    const {data:{session},error}=await sb.auth.getSession();
+    if(error) throw error;
+    setServerStatus(true,"online");
+    if(session){
+      await loadUserProfile(session.user);
+      loginOverlay.classList.add("hidden");
+      await loadServerState();
+      applyUserSession();
+    }else{
+      loginOverlay.classList.remove("hidden");
+    }
+  }catch(err){
+    console.error(err);
+    setServerStatus(false,"connection error");
+    loginOverlay.classList.remove("hidden");
+    toast("Cannot reach Supabase");
+  }
+}
+
+function selectLoginUser(name){
+  selectedLoginUser=name;
+  const avatars={Mom:"👩",Dad:"👨",Jerry:"👦",Henrik:"👦"};
+  pinUserLabel.textContent=`${avatars[name]} ${name} · Enter 6-digit PIN`;
+  loginPin.value="";
+  pinPanel.classList.add("active");
+  setTimeout(()=>loginPin.focus(),50);
+}
+async function loginSelectedUser(){
+  if(!selectedLoginUser)return;
+  const email=FAMILY_EMAILS[selectedLoginUser];
+  try{
+    const {data,error}=await sb.auth.signInWithPassword({email,password:loginPin.value});
+    if(error) throw new Error("Incorrect PIN");
+    await loadUserProfile(data.user);
+    loginOverlay.classList.add("hidden");
+    userMenuPop.classList.remove("open");
+    await loadServerState();
+    applyUserSession();
+    toast(`Welcome, ${currentUser.name}`);
+  }catch(e){toast(e.message);loginPin.value="";}
+}
+async function logoutUser(){
+  try{await sb.auth.signOut()}catch(e){}
+  currentUser=null;selectedLoginUser=null;
+  userMenuPop.classList.remove("open");
+  loginOverlay.classList.remove("hidden");
+  pinPanel.classList.remove("active");
+  renderAll();
+}
+function switchUser(){logoutUser()}
+function toggleUserMenu(){userMenuPop.classList.toggle("open")}
+function isParent(){return currentUser?.role==="parent"}
+function isChild(){return currentUser?.role==="child"}
+
+function openPinSettings(){
+  if(!currentUser){toast("Login required");return}
+  userMenuPop.classList.remove("open");
+  currentPinInput.value="";newPinInput.value="";confirmPinInput.value="";resetChildPinInput.value="";
+  parentPinAdmin.style.display=isParent()?"":"none";
+  pinSettingsModal.classList.add("open");
+}
+function validFourDigitPin(pin){return /^\d{6}$/.test(pin)}
+async function changeOwnPin(){
+  const current=currentPinInput.value.trim(), next=newPinInput.value.trim(), confirm=confirmPinInput.value.trim();
+  if(!validFourDigitPin(next)){toast("New PIN must be exactly 6 digits");return}
+  if(next!==confirm){toast("New PIN confirmation does not match");return}
+  try{
+    const {error:verifyErr}=await sb.auth.signInWithPassword({email:currentUser.email,password:current});
+    if(verifyErr) throw new Error("Current PIN is incorrect");
+    const {error}=await sb.auth.updateUser({password:next});
+    if(error) throw error;
+    currentPinInput.value="";newPinInput.value="";confirmPinInput.value="";
+    toast("PIN changed");
+  }catch(e){toast(e.message)}
+}
+async function resetChildPin(){
+  if(!isParent()){toast("Parent account required");return}
+  const newPin=resetChildPinInput.value.trim();
+  if(!validFourDigitPin(newPin)){toast("New PIN must be exactly 6 digits");return}
+  try{
+    const {data,error}=await sb.functions.invoke("reset-child-pin",{body:{child:resetChildSelect.value,newPin}});
+    if(error) throw error;
+    if(data?.error) throw new Error(data.error);
+    resetChildPinInput.value="";
+    toast(`${resetChildSelect.value}'s PIN was reset`);
+  }catch(e){toast(e.message||"Reset failed")}
+}
+function applyUserSession(){
+  if(!currentUser)return;
+  currentUserName.textContent=`${currentUser.avatar} ${currentUser.name}`;
+  currentUserRole.textContent=currentUser.role==="parent"?"Parent Account":"Child Account";
+  pageSubTitle.textContent=isParent()?"Family Dashboard & Parent Controls":"My Schedule & Rewards";
+  document.querySelectorAll(".parent-only").forEach(el=>el.style.display=isParent()?"":"none");
+  const shopSel=document.getElementById("shopMember");
+  if(shopSel){shopSel.style.display=isParent()?"":"none";if(isChild())shopSel.value=currentUser.name}
+  renderAll();
+}
+
+const titles={home:"Taoqibao Schedule",schedule:"Family Schedule",wheel:"Spin Wheel",rewards:"Rewards Center",shop:"Reward Shop"};
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.page));
+function go(p){document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));document.getElementById(p).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));pageTitle.textContent=titles[p];renderAll()}
+function renderMemberBalances(){
+  if(!currentUser){memberBalances.innerHTML="";return}
+  const order=isParent()?["Jerry","Henrik","Mom","Dad"]:[currentUser.name];
+  memberBalances.innerHTML=order.map(name=>{const w=state.wallets[name]||{points:0,coins:0,color:"#9ca3af"};return `<div class="member-wallet"><div class="member-wallet-name"><span class="member-avatar" style="background:${w.color}"></span>${name}</div><div class="member-wallet-values"><span>⭐ ${w.points} Points</span><span>🪙 ${w.coins} Coins</span></div></div>`}).join("");
+}
+function renderAll(){renderMemberBalances();renderToday();renderSchedule();renderActivities();renderApprovals();renderHistory();renderShop()}
+function statusLabel(s){return s==="pending"?"Waiting for Parent Approval":s==="confirmed"?"Completed & Confirmed":"Not Completed"}
+function statusClass(s){return s==="pending"?"status-pending":s==="confirmed"?"status-confirmed":"status-planned"}
+function categoryClass(c){return c==="work_school"?"cat-workschool":c==="spin_wheel"?"cat-wheel":"cat-fixed"}
+function categoryName(c){return c==="work_school"?"Work / School":c==="spin_wheel"?"Spin Wheel":c==="challenges"?"Challenges":"Activities"}
+function categoryColor(c){return c==="work_school"?"#4f7cff":c==="spin_wheel"?"#8b5cf6":"#39a96b"}
+function memberColor(m){return m==="Jerry"?"#3b82f6":m==="Henrik"?"#f97316":m==="Mom"?"#ec4899":m==="Dad"?"#14b8a6":"#8b5cf6"}
+function memberClass(m){return "member-"+String(m||"Family").toLowerCase().replace(/[^a-z0-9]+/g,"-")}
+
+function renderToday(){
+  const weekdaySv=["Sön","Mån","Tis","Ons","Tor","Fre","Lör"];
+  const today=new Date();
+  const y=today.getFullYear(),m=String(today.getMonth()+1).padStart(2,"0"),d=String(today.getDate()).padStart(2,"0");
+  const todayStr=`${y}-${m}-${d}`;
+  let visible=state.events.filter(e=>e.date===todayStr);
+  if(isChild())visible=visible.filter(e=>e.member===currentUser.name||e.member==="Family");
+  visible.sort((a,b)=>(a.time||"23:59").localeCompare(b.time||"23:59")||String(a.title||"").localeCompare(String(b.title||"")));
+  todayEventCount.textContent=visible.length;
+  todayEvents.innerHTML=visible.length?visible.map(e=>{
+    const dt=new Date(e.date+"T12:00:00"),vecka=isoWeekNumber(dt),dateLabel=`${weekdaySv[dt.getDay()]} ${dt.getDate()}/${dt.getMonth()+1}`;
+    const canComplete=e.status==="planned"&&(!isChild()||e.member===currentUser.name||e.member==="Family");
+    return `<div class="event"><div class="event-left"><span class="dot" style="background:${memberColor(e.member)}"></span><div><strong>${e.title}</strong><div class="muted">${e.member} · Vecka ${vecka} · ${dateLabel} · ${e.time}${e.endTime?"–"+e.endTime:""}</div><div class="event-status ${statusClass(e.status)}">${statusLabel(e.status)}</div></div></div><div class="event-actions row"><span>⭐ ${e.points}</span>${canComplete?`<button class="btn btn-green complete-btn" onclick="markComplete(${e.id})">✓ Mark Complete</button>`:""}<button class="btn btn-ghost" onclick="showDetails(${e.id})">Details</button></div></div>`;
+  }).join(""):"<div class='muted'>No events today.</div>";
+}
+function isoWeekNumber(date){const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));const day=d.getUTCDay()||7;d.setUTCDate(d.getUTCDate()+4-day);const ys=new Date(Date.UTC(d.getUTCFullYear(),0,1));return Math.ceil((((d-ys)/86400000)+1)/7)}
+function formatSwedishShort(date){const months=["jan","feb","mar","apr","maj","jun","jul","aug","sep","okt","nov","dec"];return `${date.getDate()} ${months[date.getMonth()]}`}
+function getWeekDates(){const start=new Date(state.currentWeekStart+"T12:00:00");return Array.from({length:7},(_,i)=>{const d=new Date(start);d.setDate(start.getDate()+i);return d})}
+function changeWeek(delta){const d=new Date(state.currentWeekStart+"T12:00:00");d.setDate(d.getDate()+delta*7);state.currentWeekStart=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;renderSchedule()}
+function renderSchedule(){
+  const f=document.getElementById("memberFilter")?.value||"All",cf=document.getElementById("categoryFilter")?.value||"All",weekdaySv=["Mån","Tis","Ons","Tor","Fre","Lör","Sön"],weekDates=getWeekDates();
+  const start=weekDates[0],end=weekDates[6];weekNumberLabel.textContent=`Vecka ${isoWeekNumber(start)}`;weekRangeLabel.textContent=`${formatSwedishShort(start)} – ${formatSwedishShort(end)} ${end.getFullYear()}`;
+  calendar.innerHTML=weekDates.map((date,i)=>{const ds=`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;let evs=state.events.filter(e=>e.date===ds&&(f==="All"||e.member===f)&&(cf==="All"||e.category===cf||(cf==="activities"&&e.category==="fixed")));if(isChild())evs=evs.filter(e=>e.member===currentUser.name||e.member==="Family");evs.sort((a,b)=>(a.time||"23:59").localeCompare(b.time||"23:59")||String(a.title||"").localeCompare(String(b.title||"")));return `<div class="day"><div class="day-head"><span class="weekday">${weekdaySv[i]}</span><span class="date-label">${date.getDate()}/${date.getMonth()+1}</span></div>${evs.map(e=>`<div class="mini ${memberClass(e.member)}" onclick="showDetails(${e.id})">${e.time} ${e.title}<br><span class="muted">${e.member} · ${categoryName(e.category)} · ⭐${e.points}</span></div>`).join("")}</div>`}).join("");
+}
+function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
+function googleMapsUrl(address,location){
+  let raw=String(address||location||"").trim();if(!raw)return "";
+  raw=raw.replace(/\s+/g," ").trim();
+  // If a Google Maps sharing URL was pasted into Address, use it directly instead of searching for the URL text.
+  if(/^https?:\/\/(?:www\.)?(?:google\.[^/]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps)\b/i.test(raw))return raw;
+  // Standard Google Maps Search API URL. encodeURIComponent safely handles spaces, å/ä/ö, Chinese text, #, &, commas and coordinates.
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(raw)}`;
+}
+function showDetails(id){
+  const e=state.events.find(x=>x.id===id);if(!e)return;
+  const map=googleMapsUrl(e.address,e.location);
+  const addressText=e.address||e.location||"—";
+  detailTitle.textContent=e.title;
+  detailContent.innerHTML=`<div class="detail-grid"><div class="label">Member</div><div>${escapeHtml(e.member)}</div><div class="label">Date & Time</div><div>${escapeHtml(e.date)} · ${escapeHtml(e.time)}${e.endTime?"–"+escapeHtml(e.endTime):""}</div><div class="label">Location</div><div>${escapeHtml(e.location||"—")}</div><div class="label">Address</div><div>${map?`<a href="${escapeHtml(map)}" target="_blank" rel="noopener" title="Open in Google Maps">${escapeHtml(addressText)}</a>`:escapeHtml(addressText)}</div><div class="label">Category</div><div>${escapeHtml(categoryName(e.category))}</div><div class="label">Points</div><div>⭐ ${escapeHtml(e.points)}</div><div class="label">Reminder</div><div>${escapeHtml(e.reminder||"—")}</div><div class="label">Details</div><div>${escapeHtml(e.description||"—").replace(/\n/g,"<br>")}</div></div><div class="link-btns">${map?`<a class="btn btn-primary" href="${escapeHtml(map)}" target="_blank" rel="noopener" style="text-decoration:none">📍 Open Google Maps</a>`:""}${e.web?`<a class="btn btn-green" href="${escapeHtml(e.web)}" target="_blank" rel="noopener" style="text-decoration:none">🌐 Open Website</a>`:""}${e.email?`<a class="btn btn-orange" href="mailto:${escapeHtml(e.email)}" style="text-decoration:none">✉️ Email</a>`:""}${isParent()?`<button class="btn btn-ghost" onclick="copyEvent(${e.id})">📋 Copy Event</button><button class="btn btn-ghost" onclick="editEvent(${e.id})">✏️ Edit</button><button class="btn" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca" onclick="deleteEvent(${e.id})">🗑️ Delete Event</button>`:""}</div>`;
+  detailModal.classList.add("open");
+}
+function openEventModal(){
+  if(!currentUser){toast("Login required");return}
+  eventModalTitle.textContent="Add Schedule Event";eventModal.dataset.editId="";evTitle.value="";evMember.value=isChild()?currentUser.name:"Jerry";evMember.disabled=isChild();evCategory.value="activities";
+  const d=new Date();evDate.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;evTime.value="17:00";evEndTime.value="18:00";evPoints.value=10;evLocation.value="";evAddress.value="";evWeb.value="";evEmail.value="";evDescription.value="";evReminder.value="30 min before";evRepeat.value="none";evRepeatCount.value=4;toggleRepeatOptions();eventModal.classList.add("open");
+}
+const eventTextFields=["evTitle","evLocation","evAddress","evWeb","evEmail","evDescription"];
+function lockEventTextFields(){
+  eventTextFields.forEach(id=>{const el=document.getElementById(id);if(el){el.readOnly=true;el.setAttribute("autocomplete","new-password")}});
+}
+function unlockEventField(el){
+  if(!el)return;el.readOnly=false;el.setAttribute("autocomplete","new-password");
+}
+function prepareMobileEventEditor(){
+  lockEventTextFields();
+  document.body.classList.add("modal-lock");
+  eventTextFields.forEach(id=>{
+    const el=document.getElementById(id);if(!el||el.dataset.mobileGuard)return;
+    el.dataset.mobileGuard="1";
+    const unlock=()=>unlockEventField(el);
+    el.addEventListener("pointerdown",unlock,{passive:true});
+    el.addEventListener("touchstart",unlock,{passive:true});
+    el.addEventListener("keydown",unlock);
+  });
+}
+function editEvent(id){if(!isParent()){toast("Parent account required");return}const e=state.events.find(x=>x.id===id);closeModal("detailModal");eventModalTitle.textContent="Edit Schedule Event";eventModal.dataset.editId=id;evMember.disabled=false;evTitle.value=e.title;evMember.value=e.member;evCategory.value=(e.category==="fixed"?"activities":e.category)||"activities";evDate.value=e.date;evTime.value=e.time;evEndTime.value=e.endTime||"";evPoints.value=e.points;evLocation.value=e.location||"";evAddress.value=e.address||"";evWeb.value=e.web||"";evEmail.value=e.email||"";evDescription.value=e.description||"";evReminder.value=e.reminder||"No reminder";evRepeat.value="none";evRepeatCount.value=4;toggleRepeatOptions();eventModal.classList.add("open");prepareMobileEventEditor()}
+function copyEvent(id){
+  if(!isParent()){toast("Parent account required");return}
+  const e=state.events.find(x=>x.id===id);if(!e)return;
+  closeModal("detailModal");
+  eventModalTitle.textContent="Copy Event — choose member";
+  eventModal.dataset.editId="";
+  evMember.disabled=false;
+  evTitle.value=e.title;
+  const members=["Jerry","Henrik","Mom","Dad","Family"];
+  evMember.value=members.find(m=>m!==e.member)||"Family";
+  evCategory.value=(e.category==="fixed"?"activities":e.category)||"activities";
+  evDate.value=e.date;
+  evTime.value=e.time;
+  evEndTime.value=e.endTime||"";
+  evPoints.value=e.points;
+  evLocation.value=e.location||"";
+  evAddress.value=e.address||"";
+  evWeb.value=e.web||"";
+  evEmail.value=e.email||"";
+  evDescription.value=e.description||"";
+  evReminder.value=e.reminder||"No reminder";
+  evRepeat.value="none";
+  evRepeatCount.value=4;
+  toggleRepeatOptions();
+  eventModal.classList.add("open");
+  prepareMobileEventEditor();
+  setTimeout(()=>{try{evMember.focus({preventScroll:true})}catch(_){ }},50);
+  toast(`Copied from ${e.member}. Choose another member and save.`);
+}
+async function deleteEvent(id){
+  if(!isParent()){toast("Parent account required");return}
+  const e=state.events.find(x=>x.id===id);if(!e)return;
+  const note=e.status==="confirmed"?"\n\nThis event was already confirmed. Deleting it will NOT remove points that were already awarded.":"";
+  if(!confirm(`Delete “${e.title}” from the schedule?${note}`))return;
+  const oldEvents=state.events.slice();
+  state.events=state.events.filter(x=>x.id!==id);
+  try{await saveServerState();closeModal("detailModal");toast("Event deleted from NAS")}catch(err){state.events=oldEvents;renderAll();toast(err.message||"Delete failed")}
+}
+function toggleRepeatOptions(){
+  const repeating=evRepeat && evRepeat.value!=="none";
+  if(evRepeatCount)evRepeatCount.style.display=repeating?"block":"none";
+  if(repeatHint)repeatHint.style.display=repeating?"block":"none";
+}
+function formatDateLocal(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function recurringDate(startDate,index,repeat){
+  const base=new Date(startDate+"T12:00:00");
+  if(repeat==="daily"){base.setDate(base.getDate()+index);return formatDateLocal(base)}
+  if(repeat==="weekly"){base.setDate(base.getDate()+index*7);return formatDateLocal(base)}
+  if(repeat==="monthly"){
+    const originalDay=base.getDate();
+    base.setDate(1);base.setMonth(base.getMonth()+index);
+    const lastDay=new Date(base.getFullYear(),base.getMonth()+1,0).getDate();
+    base.setDate(Math.min(originalDay,lastDay));return formatDateLocal(base)
+  }
+  return startDate;
+}
+async function saveEvent(){
+  const btn=document.getElementById("saveEventBtn");
+  if(btn?.disabled)return;
+  try{
+    if(document.activeElement && typeof document.activeElement.blur==="function") document.activeElement.blur();
+    const title=evTitle.value.trim();
+    if(!title){toast("Enter activity name");evTitle.focus();return}
+    if(!evDate.value){toast("Choose a date");evDate.focus();return}
+    const firstDate=new Date(evDate.value+"T12:00:00"),dayMap=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+    if(Number.isNaN(firstDate.getTime())){toast("Invalid date");return}
+    const member=isChild()?currentUser.name:evMember.value;
+    const baseData={title,member,category:evCategory.value,time:evTime.value,endTime:evEndTime.value,points:Number.isFinite(+evPoints.value)?+evPoints.value:0,status:"planned",color:memberColor(member),location:evLocation.value.trim(),address:evAddress.value.trim(),web:evWeb.value.trim(),email:evEmail.value.trim(),description:evDescription.value.trim(),reminder:evReminder.value};
+    const editId=Number(eventModal.dataset.editId||0);
+    let original=null,createdIds=[];
+    if(editId){
+      if(!isParent()){toast("Parent account required");return}
+      const target=state.events.find(x=>Number(x.id)===editId);
+      if(!target){toast("This event could not be found. Please close and open it again.");return}
+      original={...target};
+      const d=new Date(evDate.value+"T12:00:00");
+      Object.assign(target,baseData,{date:evDate.value,day:dayMap[d.getDay()]});
+    }else{
+      const repeat=evRepeat?.value||"none";
+      const requestedCount=repeat==="none"?1:Math.max(2,Math.min(100,parseInt(evRepeatCount?.value||"4",10)||4));
+      const groupId=repeat==="none"?"":`repeat-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+      const idBase=Date.now()*100;
+      for(let i=0;i<requestedCount;i++){
+        const date=recurringDate(evDate.value,i,repeat),d=new Date(date+"T12:00:00"),id=idBase+i;
+        state.events.push({...baseData,id,date,day:dayMap[d.getDay()],recurrenceGroupId:groupId,recurrenceType:repeat,recurrenceIndex:i});
+        createdIds.push(id);
+      }
+    }
+    state.events.sort((a,b)=>`${a.date||"9999-99-99"}T${a.time||"23:59"}`.localeCompare(`${b.date||"9999-99-99"}T${b.time||"23:59"}`)||Number(a.id||0)-Number(b.id||0));
+    if(btn){btn.disabled=true;btn.textContent="Saving…"}
+    try{
+      await saveServerState();
+      closeModal("eventModal");
+      toast(editId?"Event saved on NAS":createdIds.length>1?`${createdIds.length} recurring activities added`:"Event saved on NAS");
+    }catch(err){
+      if(editId&&original){const target=state.events.find(x=>Number(x.id)===editId);if(target)Object.assign(target,original)}
+      else if(createdIds.length) state.events=state.events.filter(x=>!createdIds.includes(Number(x.id)));
+      renderAll();
+      toast(err?.message||"Save failed. Please try again.");
+    }
+  }catch(err){
+    console.error("saveEvent failed",err);
+    toast(err?.message||"Save failed. Please try again.");
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent="Save"}
+  }
+}
+function renderActivities(){activityList.innerHTML=state.activities.map((a,i)=>`<div class="activity-row"><input value="${a.name}" onchange="state.activities[${i}].name=this.value"><input type="number" value="${a.points}" onchange="state.activities[${i}].points=+this.value"><input type="number" value="${a.weight}" onchange="state.activities[${i}].weight=+this.value"><button class="btn btn-ghost" onclick="removeActivity(${i})">✕</button></div>`).join("")}
+async function removeActivity(i){if(!isParent())return;state.activities.splice(i,1);await saveServerState()}
+async function addActivity(){if(!isParent())return;state.activities.push({name:"New Activity",points:5,weight:10});await saveServerState()}
+function spinWheel(){const total=state.activities.reduce((s,a)=>s+(+a.weight||0),0);if(!total){toast("No activities");return}let r=Math.random()*total,chosen=state.activities[0];for(const a of state.activities){r-=a.weight;if(r<=0){chosen=a;break}}state.selected=chosen;selectedActivity.textContent=`${chosen.name} · ⭐ ${chosen.points}`;wheelObj.style.transform=`rotate(${720+Math.floor(Math.random()*720)}deg)`;toast(`Selected: ${chosen.name}`)}
+function addSelectedToSchedule(){if(!state.selected){toast("Spin first");return}openEventModal();evTitle.value=state.selected.name;evPoints.value=state.selected.points;evCategory.value="spin_wheel"}
+async function markComplete(id){const e=state.events.find(x=>x.id===id);if(!e||e.status!=="planned")return;if(isChild()&&e.member!==currentUser.name&&e.member!=="Family"){toast("Not your event");return}e.status="pending";await saveServerState();toast(`${e.title} is waiting for parent approval`)}
+function renderApprovals(){
+  let pending=state.events.filter(e=>e.status==="pending");pendingCount.textContent=pending.length;
+  const shown=isChild()?pending.filter(e=>e.member===currentUser.name||e.member==="Family"):pending;
+  approvalList.innerHTML=shown.length?shown.map(e=>`<div class="event"><div><strong>${e.member}: ${e.title}</strong><div class="muted">Reward ⭐ ${e.points}</div></div>${isParent()?`<div class="row"><button class="btn btn-green" onclick="approve(${e.id})">Confirm</button><button class="btn btn-ghost" onclick="reject(${e.id})">Reject</button></div>`:`<div class="event-status status-pending">Waiting for parent</div>`}</div>`).join(""):"<div class='muted'>No pending approvals.</div>";
+  if(homeApprovalList){const mine=isParent()?pending:shown;homeApprovalList.innerHTML=mine.length?mine.slice(0,3).map(e=>`<div class="home-approval-item"><div><strong>${e.member} · ${e.title}</strong><div class="muted">${isParent()?`Earn ⭐ ${e.points} after confirmation`:"Waiting for parent confirmation"}</div></div>${isParent()?`<div class="home-approval-actions"><button class="btn btn-green" onclick="approve(${e.id})">Confirm</button><button class="btn btn-ghost" onclick="reject(${e.id})">Reject</button></div>`:""}</div>`).join(""):"<div class='muted' style='margin-top:8px;font-size:12px'>Nothing waiting.</div>"}
+}
+async function approve(id){if(!isParent()){toast("Parent account required");return}const e=state.events.find(x=>x.id===id);if(!e||e.status!=="pending")return;e.status="confirmed";if(state.wallets[e.member]){state.wallets[e.member].points+=+e.points;state.history.unshift(`+${e.points} Points · ${e.member} · ${e.title}`)}await saveServerState();toast("Activity confirmed")}
+async function reject(id){if(!isParent()){toast("Parent account required");return}const e=state.events.find(x=>x.id===id);if(!e)return;e.status="planned";await saveServerState();toast("Returned to Not Completed")}
+async function exchangePointsFn(){if(!isParent()){toast("Parent account required");return}const member=exchangeMember.value,p=+exchangePoints.value,w=state.wallets[member];if(p<=0||p%10!==0){toast("Use multiples of 10");return}if(!w||w.points<p){toast(`${member} does not have enough points`);return}const c=p/10;w.points-=p;w.coins+=c;state.history.unshift(`-${p} Points · ${member} · Exchanged for ${c} Coins`);await saveServerState();toast(`${member} +${c} Coins`)}
+function renderHistory(){history.innerHTML=state.history.map(x=>`<div class="event">${x}</div>`).join("")}
+function renderShop(){if(!currentUser)return;const member=isChild()?currentUser.name:(shopMember?.value||"Jerry"),coins=state.wallets[member]?.coins||0;shopGrid.innerHTML=state.rewards.map((r,i)=>`<div class="reward"><div class="emoji">${r.emoji}</div><strong>${r.name}</strong><div class="price">🪙 ${r.price}</div><div class="muted" style="margin-bottom:8px">${member}: 🪙 ${coins}</div><button class="btn ${coins>=r.price?'btn-orange':'btn-ghost'}" onclick="redeem(${i})">${coins>=r.price?'Redeem':'Not enough coins'}</button></div>`).join("")}
+async function redeem(i){const member=isChild()?currentUser.name:(shopMember?.value||"Jerry"),w=state.wallets[member],r=state.rewards[i];if(!w||w.coins<r.price){toast("Not enough coins");return}w.coins-=r.price;state.history.unshift(`-${r.price} Coins · ${member} · Redeemed ${r.name}`);await saveServerState();toast(`${member} redeemed: ${r.name}`)}
+function openRewardModal(){if(!isParent()){toast("Parent account required");return}rewardModal.classList.add("open")}
+async function saveReward(){const n=rwName.value.trim();if(!n){toast("Enter reward name");return}state.rewards.push({name:n,emoji:rwEmoji.value||"🎁",price:+rwPrice.value});await saveServerState();closeModal("rewardModal");rwName.value="";toast("Reward added")}
+function closeModal(id){document.getElementById(id).classList.remove("open");if(id==="eventModal"){lockEventTextFields();document.body.classList.remove("modal-lock")}}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2000)}
+
+function openImportModal(){if(!isParent()){toast("Parent account required");return}importRows=[];importPreviewWrap.innerHTML="";ocrText.value="";ocrStatus.textContent="No image recognized yet.";scheduleImage.value="";importImagePreview.style.display="none";importModal.classList.add("open")}
+function previewImportImage(ev){const file=ev.target.files?.[0];if(!file)return;importImagePreview.src=URL.createObjectURL(file);importImagePreview.style.display="block";ocrStatus.textContent="Image selected. Click Recognize Image."}
+async function recognizeScheduleImage(){const file=scheduleImage.files?.[0];if(!file){toast("Choose an image first");return}if(!window.Tesseract){ocrStatus.textContent="OCR library could not load.";return}try{ocrStatus.textContent="Recognizing…";const result=await Tesseract.recognize(file,"eng+swe",{logger:m=>{if(m.status&&typeof m.progress==="number")ocrStatus.textContent=`${m.status} · ${Math.round(m.progress*100)}%`}});ocrText.value=result.data.text||"";ocrStatus.textContent="Recognition finished."}catch(err){console.error(err);ocrStatus.textContent="Recognition failed."}}
+function parseOCRText(){const raw=ocrText.value.trim();if(!raw){toast("No OCR text to parse");return}const lines=raw.split(/\n+/).map(x=>x.trim()).filter(Boolean),timeRe=/\b([01]?\d|2[0-3])[:.]([0-5]\d)\s*(?:[-–—to]+\s*([01]?\d|2[0-3])[:.]([0-5]\d))?/i,dateRe=/\b(20\d{2})[-\/.](\d{1,2})[-\/.](\d{1,2})\b/;importRows=[];for(const line of lines){const tm=line.match(timeRe);if(!tm)continue;const dm=line.match(dateRe),start=`${String(tm[1]).padStart(2,"0")}:${tm[2]}`,end=tm[3]?`${String(tm[3]).padStart(2,"0")}:${tm[4]}`:"",date=dm?`${dm[1]}-${String(dm[2]).padStart(2,"0")}-${String(dm[3]).padStart(2,"0")}`:importDefaultDate.value;let title=line.replace(timeRe,"").replace(dateRe,"").replace(/^[\s\-–—:|]+|[\s\-–—:|]+$/g,"").trim()||"Imported Schedule";importRows.push({title,start,end,date,member:importMember.value,category:importCategory.value})}if(!importRows.length)importRows=[{title:lines[0]||"Imported Schedule",start:"09:00",end:"",date:importDefaultDate.value,member:importMember.value,category:importCategory.value}];renderImportPreview()}
+function renderImportPreview(){importRows.sort((a,b)=>`${a.date||"9999-99-99"}T${a.start||"23:59"}`.localeCompare(`${b.date||"9999-99-99"}T${b.start||"23:59"}`));importPreviewWrap.innerHTML=`<table class="import-preview"><thead><tr><th>Use</th><th>Activity</th><th>Date</th><th>Time</th><th>Category</th></tr></thead><tbody>${importRows.map((r,i)=>`<tr><td><input type="checkbox" id="impUse${i}" checked></td><td><input value="${r.title.replace(/"/g,"&quot;")}" onchange="importRows[${i}].title=this.value"></td><td><input type="date" value="${r.date}" onchange="importRows[${i}].date=this.value"></td><td><input type="time" value="${r.start}" onchange="importRows[${i}].start=this.value"></td><td>${categoryName(r.category)}</td></tr>`).join("")}</tbody></table>`}
+async function confirmOCRImport(){if(!importRows.length){toast("Create import preview first");return}const dayMap=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];let count=0;importRows.forEach((r,i)=>{if(!document.getElementById(`impUse${i}`)?.checked)return;const d=new Date(r.date+"T12:00:00");state.events.push({id:Date.now()+i,title:r.title,member:r.member,category:r.category,date:r.date,day:dayMap[d.getDay()],time:r.start,endTime:r.end,points:0,status:"planned",color:memberColor(r.member),location:"",address:"",web:"",email:"",description:"Imported from schedule image",reminder:"No reminder"});count++});await saveServerState();closeModal("importModal");go("schedule");toast(`${count} schedule item(s) imported`)}
+
+let calendarImportRows=[];
+function openCalendarImportModal(){
+  if(!isParent()){toast("Parent account required");return}
+  calendarImportRows=[];calendarFile.value="";calendarUrl.value="";calendarImportPreviewWrap.innerHTML="";calendarImportStatus.textContent="Choose an .ics/.ical file or enter a calendar URL.";calendarImportModal.classList.add("open")
+}
+function icsUnescape(v=""){return v.replace(/\\n/gi,"\n").replace(/\\,/g,",").replace(/\\;/g,";").replace(/\\\\/g,"\\")}
+function parseICSDate(value,params=""){
+  const v=(value||"").trim();
+  if(/^\d{8}$/.test(v)) return {date:`${v.slice(0,4)}-${v.slice(4,6)}-${v.slice(6,8)}`,time:"",allDay:true};
+  const m=v.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})?(Z)?$/);if(!m)return null;
+  if(m[7]){
+    const d=new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+(m[6]||0)));
+    return {date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`,time:`${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`,allDay:false};
+  }
+  return {date:`${m[1]}-${m[2]}-${m[3]}`,time:`${m[4]}:${m[5]}`,allDay:false};
+}
+function parseICS(text){
+  const unfolded=text.replace(/\r\n[ \t]/g,"").replace(/\n[ \t]/g,"");
+  const blocks=unfolded.split(/BEGIN:VEVENT\r?\n/i).slice(1).map(x=>x.split(/\r?\nEND:VEVENT/i)[0]);
+  return blocks.map((block,idx)=>{
+    const props={};
+    block.split(/\r?\n/).forEach(line=>{const pos=line.indexOf(":");if(pos<0)return;const left=line.slice(0,pos),value=line.slice(pos+1),parts=left.split(";"),key=parts.shift().toUpperCase();if(props[key]===undefined)props[key]={value,params:parts.join(";")}});
+    const start=props.DTSTART?parseICSDate(props.DTSTART.value,props.DTSTART.params):null;if(!start)return null;
+    const end=props.DTEND?parseICSDate(props.DTEND.value,props.DTEND.params):null;
+    return {uid:props.UID?.value||`import-${idx}-${start.date}-${start.time}`,title:icsUnescape(props.SUMMARY?.value||"Imported Event"),date:start.date,start:start.time||"00:00",end:end&&end.date===start.date?(end.time||""):"",allDay:start.allDay,location:icsUnescape(props.LOCATION?.value||""),description:icsUnescape(props.DESCRIPTION?.value||""),url:props.URL?.value||""};
+  }).filter(Boolean)
+}
+async function readCalendarFile(ev){
+  const file=ev.target.files?.[0];if(!file)return;
+  try{
+    const text=await file.text();calendarImportRows=parseICS(text);
+    if(!calendarImportRows.length){calendarImportStatus.textContent="No calendar events were found in this file.";calendarImportPreviewWrap.innerHTML="";return}
+    calendarImportStatus.textContent=`${calendarImportRows.length} event(s) found. Review before importing.`;renderCalendarImportPreview()
+  }catch(err){console.error(err);calendarImportStatus.textContent="Could not read this calendar file."}
+}
+async function readCalendarUrl(){
+  let url=calendarUrl.value.trim();
+  if(!url){toast("Enter a calendar URL first");return}
+  if(/^webcal:\/\//i.test(url)) url="https://"+url.slice(9);
+  calendarImportStatus.textContent="Loading calendar URL…";
+  calendarImportPreviewWrap.innerHTML="";
+  calendarImportRows=[];
+  try{
+    const {data,error}=await sb.functions.invoke("fetch-calendar",{body:{url}});
+    if(error) throw error;
+    if(data?.error) throw new Error(data.error);
+    const text=data.ics||"";
+    calendarImportRows=parseICS(text);
+    if(!calendarImportRows.length){calendarImportStatus.textContent="The URL loaded, but no calendar events were found.";return}
+    calendarImportStatus.textContent=`${calendarImportRows.length} event(s) found from URL. Review before importing.`;
+    renderCalendarImportPreview();
+  }catch(err){
+    console.error(err);
+    calendarImportStatus.textContent=err.message||"Could not load this calendar URL.";
+  }
+}
+function detectCalendarOwner(row){
+  const text=[row.title,row.description,row.location].filter(Boolean).join(" ").toLowerCase();
+  const hasJerryName=/\bjerry\b/i.test(text),hasHenrikName=/\bhenrik\b/i.test(text);
+  // Player-number matching is intentionally strict so ordinary times/dates such as 18:00 or 2026-08-15 are not mistaken for a child.
+  const numberMarker=n=>new RegExp(`(?:#\\s*${n}\\b|\\b(?:no\\.?|nr\\.?|number|player|spelare|jersey)\\s*[:#-]?\\s*${n}\\b|\\(${n}\\))`,`i`).test(text);
+  const hasJerry=hasJerryName||numberMarker(15),hasHenrik=hasHenrikName||numberMarker(18);
+  if(hasJerry&&hasHenrik)return {member:"Family",reason:"Jerry + Henrik"};
+  if(hasJerry)return {member:"Jerry",reason:hasJerryName?"name Jerry":"player #15"};
+  if(hasHenrik)return {member:"Henrik",reason:hasHenrikName?"name Henrik":"player #18"};
+  return {member:calendarImportMember.value||"Family",reason:"default"};
+}
+function applyCalendarOwnerDetection(){
+  calendarImportRows.forEach(r=>{if(r.ownerReason==="manual")return;const d=detectCalendarOwner(r);r.member=d.member;r.ownerReason=d.reason});
+}
+function calendarRowSortKey(r){
+  // All-day items come first on the same date, then timed events from earliest to latest.
+  return `${r.date||"9999-99-99"}T${r.allDay?"00:00":(r.start||"23:59")}|${String(r.title||"").toLowerCase()}`;
+}
+function sortCalendarImportRows(){
+  calendarImportRows.sort((a,b)=>calendarRowSortKey(a).localeCompare(calendarRowSortKey(b)));
+}
+
+function renderCalendarImportPreview(){
+  applyCalendarOwnerDetection();
+  sortCalendarImportRows();
+  const members=["Jerry","Henrik","Mom","Dad","Family"];
+  calendarImportStatus.textContent=`${calendarImportRows.length} event(s) loaded. All events are shown below in date and time order.`;
+  calendarImportPreviewWrap.innerHTML=`<table class="import-preview"><thead><tr><th>Use</th><th>Event</th><th>Owner</th><th>Date</th><th>Time</th><th>Location</th></tr></thead><tbody>${calendarImportRows.map((r,i)=>`<tr><td><input type="checkbox" id="calUse${i}" checked></td><td><input value="${String(r.title).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}" onchange="calendarImportRows[${i}].title=this.value"></td><td><select onchange="calendarImportRows[${i}].member=this.value;calendarImportRows[${i}].ownerReason='manual'">${members.map(m=>`<option ${m===r.member?"selected":""}>${m}</option>`).join("")}</select><div class="muted" style="margin-top:4px">${r.ownerReason==="default"?"Default":r.ownerReason==="manual"?"Manual":`Detected: ${r.ownerReason}`}</div></td><td>${r.date}</td><td>${r.allDay?"All day":`${r.start}${r.end?"–"+r.end:""}`}</td><td>${String(r.location||"—").replace(/&/g,"&amp;").replace(/</g,"&lt;")}</td></tr>`).join("")}</tbody></table>`
+}
+async function confirmCalendarImport(){
+  if(!calendarImportRows.length){toast("Choose a calendar file or load a calendar URL first");return}
+  const category=calendarImportCategory.value,dayMap=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];let count=0,base=Date.now()*100;
+  calendarImportRows.forEach((r,i)=>{
+    if(!document.getElementById(`calUse${i}`)?.checked)return;
+    // Import every selected calendar row. Time overlaps are deliberately ignored.
+    // No event is removed, merged, replaced, hidden, or skipped because another event has the same time.
+    const member=r.member||calendarImportMember.value||"Family";
+    const d=new Date(r.date+"T12:00:00");state.events.push({id:base+i,title:r.title,member,category,date:r.date,day:dayMap[d.getDay()],time:r.allDay?"00:00":r.start,endTime:r.end||"",points:0,status:"planned",color:memberColor(member),location:r.location||"",address:r.location||"",web:r.url||"",email:"",description:[r.description,"Imported from calendar (.ics / URL)"].filter(Boolean).join("\n\n"),reminder:"No reminder",externalUid:r.uid,allDay:!!r.allDay});count++
+  });
+  state.events.sort((a,b)=>`${a.date||"9999-99-99"}T${a.time||"23:59"}`.localeCompare(`${b.date||"9999-99-99"}T${b.time||"23:59"}`)||Number(a.id||0)-Number(b.id||0));
+  try{await saveServerState();closeModal("calendarImportModal");go("schedule");toast(`${count} calendar event(s) imported in time order`)}catch(err){toast(err.message||"Import failed")}
+}
+
+boot();
+</script>
+
+</body>
+</html>
