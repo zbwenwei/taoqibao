@@ -12,6 +12,11 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
+-- RLS policies only take effect on top of a base GRANT; without this, authenticated
+-- requests get "permission denied for table profiles" even though a policy exists.
+grant usage on schema public to anon, authenticated;
+grant select on public.profiles to authenticated;
+
 drop policy if exists "profiles readable by any signed-in family member" on public.profiles;
 create policy "profiles readable by any signed-in family member"
   on public.profiles for select
@@ -25,6 +30,8 @@ create table if not exists public.app_state (
 );
 
 alter table public.app_state enable row level security;
+
+grant select, update on public.app_state to authenticated;
 
 drop policy if exists "app_state readable by any signed-in family member" on public.app_state;
 create policy "app_state readable by any signed-in family member"

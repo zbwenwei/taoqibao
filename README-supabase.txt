@@ -88,16 +88,22 @@ zero-router-config alternatives if you'd rather not expose the NAS
 itself to the internet.)
 
 Host on GitHub Pages instead (HTTPS, free, no NAS/router involved):
-1. Create a GitHub repository for this project (public is fine - the
-   Supabase anon key is safe to expose publicly; it's protected by RLS,
-   not secrecy, and no real family data lives in this repo, only in
-   Supabase).
-2. Push this folder's contents to that repository's default branch.
+Already set up for this project:
+  Repo:      https://github.com/zbwenwei/taoqibao
+  Live URL:  https://zbwenwei.github.io/taoqibao/
+
+To publish future changes to index.html, push them to the "master"
+branch (git add / git commit / git push) - GitHub Pages redeploys
+automatically within about a minute.
+
+(General steps, for reference / other projects:
+1. Create a GitHub repository (public is fine - the Supabase anon key
+   is safe to expose publicly; it's protected by RLS, not secrecy, and
+   no real family data lives in this repo, only in Supabase).
+2. Push the folder's contents to that repository's default branch.
 3. Repo Settings > Pages > Source: "Deploy from a branch" > pick the
    default branch and "/ (root)" folder > Save.
-4. GitHub serves index.html automatically at:
-     https://<your-github-username>.github.io/<repo-name>/
-   (it can take a minute after the first push for the page to go live).
+4. GitHub serves index.html at https://<username>.github.io/<repo>/ )
 
 The api/index.php and data/ folder (SQLite) are no longer used by
 index.html and can be deleted once you've confirmed the Supabase
