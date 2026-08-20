@@ -269,35 +269,35 @@ body.modal-lock{overflow:hidden}
   <div class="login-card">
     <div class="login-title">
       <h2>📅 Taoqibao Schedule</h2>
-      <div class="muted">Who are you?</div>
+      <div class="muted" data-i18n="who_are_you">Who are you?</div>
     </div>
 
     <div class="login-users">
       <button class="user-choice" onclick="selectLoginUser('Mom')">
-        <div class="user-avatar-large">👩</div><strong>Mom</strong><div class="user-role">Parent</div>
+        <div class="user-avatar-large">👩</div><strong>Mom</strong><div class="user-role" data-i18n="role_parent">Parent</div>
       </button>
       <button class="user-choice" onclick="selectLoginUser('Dad')">
-        <div class="user-avatar-large">👨</div><strong>Dad</strong><div class="user-role">Parent</div>
+        <div class="user-avatar-large">👨</div><strong>Dad</strong><div class="user-role" data-i18n="role_parent">Parent</div>
       </button>
       <button class="user-choice" onclick="selectLoginUser('Jerry')">
-        <div class="user-avatar-large">👦</div><strong>Jerry</strong><div class="user-role">Child</div>
+        <div class="user-avatar-large">👦</div><strong>Jerry</strong><div class="user-role" data-i18n="role_child">Child</div>
       </button>
       <button class="user-choice" onclick="selectLoginUser('Henrik')">
-        <div class="user-avatar-large">👦</div><strong>Henrik</strong><div class="user-role">Child</div>
+        <div class="user-avatar-large">👦</div><strong>Henrik</strong><div class="user-role" data-i18n="role_child">Child</div>
       </button>
     </div>
 
     <div class="pin-panel" id="pinPanel">
       <div style="text-align:center">
-        <div style="font-weight:800;margin-bottom:10px" id="pinUserLabel">Enter PIN</div>
+        <div style="font-weight:800;margin-bottom:10px" id="pinUserLabel" data-i18n="enter_pin">Enter PIN</div>
         <input id="loginPin" type="password" inputmode="numeric" maxlength="6" placeholder="••••••">
         <div style="margin-top:12px">
-          <button class="btn btn-primary" onclick="loginSelectedUser()">Login</button>
+          <button class="btn btn-primary" onclick="loginSelectedUser()" data-i18n="login_btn">Login</button>
         </div>
       </div>
     </div>
 
-    <div class="demo-pins">
+    <div class="demo-pins" data-i18n="demo_pins">
       First-use PIN for everyone: 123456. You can change it after login.
     </div>
   </div>
@@ -307,31 +307,32 @@ body.modal-lock{overflow:hidden}
 <aside class="sidebar">
   <div class="brand">📅 Taoqibao <span>Schedule</span></div>
   <div class="nav">
-    <button class="active" data-page="home">🏠 Home</button>
-    <button data-page="schedule">📅 Schedule</button>
-    <button data-page="wheel">🎡 Spin Wheel</button>
-    <button data-page="rewards">⭐ Rewards</button>
-    <button data-page="shop">🛍️ Shop</button>
+    <button class="active" data-page="home" data-i18n="nav_home">🏠 Home</button>
+    <button data-page="schedule" data-i18n="nav_schedule">📅 Schedule</button>
+    <button data-page="wheel" data-i18n="nav_wheel">🎡 Spin Wheel</button>
+    <button data-page="rewards" data-i18n="nav_rewards">⭐ Rewards</button>
+    <button data-page="shop" data-i18n="nav_shop">🛍️ Shop</button>
   </div>
 </aside>
 
 <main class="main">
 <div class="top">
-  <div><h1 id="pageTitle">Taoqibao Schedule</h1><div class="sub" id="pageSubTitle">Family Schedule & Reward System</div></div>
+  <div><h1 id="pageTitle" data-page="home">Taoqibao Schedule</h1><div class="sub" id="pageSubTitle" data-i18n="sub_family">Family Schedule & Reward System</div></div>
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start"><div id="serverStatus" class="pill" style="font-size:12px">Supabase: connecting…</div>
+    <button class="btn btn-ghost" id="langToggle" style="font-size:12px" onclick="toggleLang()">中文</button>
     <div class="balance member-balances" id="memberBalances"></div>
     <div class="user-menu">
       <div class="current-user-box">
         <div>
-          <div class="current-user-name" id="currentUserName">Not signed in</div>
+          <div class="current-user-name" id="currentUserName" data-i18n="not_signed_in">Not signed in</div>
           <div class="current-user-role" id="currentUserRole"></div>
         </div>
         <button class="user-menu-btn" onclick="toggleUserMenu()">⋮</button>
       </div>
       <div class="user-menu-pop" id="userMenuPop">
-        <button onclick="openPinSettings()">PIN Settings</button>
-        <button onclick="switchUser()">Switch User</button>
-        <button onclick="logoutUser()">Logout</button>
+        <button onclick="openPinSettings()" data-i18n="menu_pin_settings">PIN Settings</button>
+        <button onclick="switchUser()" data-i18n="menu_switch_user">Switch User</button>
+        <button onclick="logoutUser()" data-i18n="menu_logout">Logout</button>
       </div>
     </div>
   </div>
@@ -339,23 +340,23 @@ body.modal-lock{overflow:hidden}
 
 <section id="home" class="section active">
 <div class="grid">
-  <div class="card span-4"><div class="muted">Today's Events</div><div class="stat" id="todayEventCount">4</div></div>
+  <div class="card span-4"><div class="muted" data-i18n="todays_events">Today's Events</div><div class="stat" id="todayEventCount">4</div></div>
   <div class="card span-4">
     <div class="row" style="justify-content:space-between">
       <div>
-        <div class="muted">Pending Approval</div>
+        <div class="muted" data-i18n="pending_approval">Pending Approval</div>
         <div class="stat" id="pendingCount">1</div>
       </div>
-      <span class="approval-badge">Parent</span>
+      <span class="approval-badge" data-i18n="role_parent">Parent</span>
     </div>
     <div id="homeApprovalList" class="home-approval-list"></div>
   </div>
-  <div class="card span-4"><div class="muted">Family Progress</div><div class="stat">65%</div><div class="progress"><div></div></div></div>
-  <div class="card span-8"><h3>Today's Schedule</h3><div id="todayEvents" class="events"></div></div>
-  <div class="card span-4"><h3>Quick Actions</h3><div class="events">
-    <button class="btn btn-primary" onclick="openEventModal()">＋ Add Event</button>
-    <button class="btn btn-green" onclick="go('wheel')">🎡 Spin Activity</button>
-    <button class="btn btn-orange" onclick="go('shop')">🎁 Open Shop</button>
+  <div class="card span-4"><div class="muted" data-i18n="family_progress">Family Progress</div><div class="stat">65%</div><div class="progress"><div></div></div></div>
+  <div class="card span-8"><h3 data-i18n="todays_schedule">Today's Schedule</h3><div id="todayEvents" class="events"></div></div>
+  <div class="card span-4"><h3 data-i18n="quick_actions">Quick Actions</h3><div class="events">
+    <button class="btn btn-primary" onclick="openEventModal()" data-i18n="btn_add_event">＋ Add Event</button>
+    <button class="btn btn-green" onclick="go('wheel')" data-i18n="btn_spin_activity">🎡 Spin Activity</button>
+    <button class="btn btn-orange" onclick="go('shop')" data-i18n="btn_open_shop">🎁 Open Shop</button>
   </div></div>
 </div>
 </section>
@@ -363,18 +364,18 @@ body.modal-lock{overflow:hidden}
 <section id="schedule" class="section">
 <div class="card">
   <div class="toolbar">
-    <select id="memberFilter" onchange="renderSchedule()"><option value="All">All Family</option><option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option>Family</option></select>
+    <select id="memberFilter" onchange="renderSchedule()"><option value="All" data-i18n="all_family">All Family</option><option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option data-i18n="member_family">Family</option></select>
     <select id="categoryFilter" onchange="renderSchedule()">
-      <option value="All">All Categories</option>
-      <option value="work_school">Work / School</option>
-      <option value="activities">Activities</option>
-      <option value="challenges">Challenges</option>
-      <option value="spin_wheel">Spin Wheel</option>
+      <option value="All" data-i18n="all_categories">All Categories</option>
+      <option value="work_school" data-i18n="cat_work_school">Work / School</option>
+      <option value="activities" data-i18n="cat_activities">Activities</option>
+      <option value="challenges" data-i18n="cat_challenges">Challenges</option>
+      <option value="spin_wheel" data-i18n="cat_spin_wheel">Spin Wheel</option>
     </select>
-    <select id="scheduleView"><option>Week View</option><option>Day View</option><option>Month View</option></select>
-    <button class="btn btn-primary" onclick="openEventModal()">＋ Add Event</button>
-    <button class="btn btn-green parent-only" onclick="openImportModal()">📷 Import from Image</button>
-    <button class="btn btn-orange parent-only" onclick="openCalendarImportModal()">📅 Import Calendar (.ics / URL)</button>
+    <select id="scheduleView"><option data-i18n="week_view">Week View</option><option data-i18n="day_view">Day View</option><option data-i18n="month_view">Month View</option></select>
+    <button class="btn btn-primary" onclick="openEventModal()" data-i18n="btn_add_event">＋ Add Event</button>
+    <button class="btn btn-green parent-only" onclick="openImportModal()" data-i18n="btn_import_image">📷 Import from Image</button>
+    <button class="btn btn-orange parent-only" onclick="openCalendarImportModal()" data-i18n="btn_import_calendar">📅 Import Calendar (.ics / URL)</button>
   </div>
 
   <div class="week-header">
@@ -399,27 +400,27 @@ body.modal-lock{overflow:hidden}
 
 <section id="wheel" class="section">
 <div class="grid">
-  <div class="card span-6"><h3>Spin Wheel</h3><div class="wheel-wrap">
-    <div><div id="wheelObj" class="wheel"></div><div style="text-align:center;margin-top:16px"><button class="btn btn-green" onclick="spinWheel()">SPIN 🎡</button></div></div>
-    <div><div class="muted">Selected Activity</div><h2 id="selectedActivity">—</h2><button class="btn btn-primary" onclick="addSelectedToSchedule()">Add to Schedule</button></div>
+  <div class="card span-6"><h3 data-i18n="wheel_heading">Spin Wheel</h3><div class="wheel-wrap">
+    <div><div id="wheelObj" class="wheel"></div><div style="text-align:center;margin-top:16px"><button class="btn btn-green" onclick="spinWheel()" data-i18n="spin_btn">SPIN 🎡</button></div></div>
+    <div><div class="muted" data-i18n="selected_activity">Selected Activity</div><h2 id="selectedActivity">—</h2><button class="btn btn-primary" onclick="addSelectedToSchedule()" data-i18n="btn_add_to_schedule">Add to Schedule</button></div>
   </div></div>
-  <div class="card span-6 parent-only"><h3>Activity Database</h3><div id="activityList"></div><button class="btn btn-ghost" onclick="addActivity()">＋ Add Activity</button></div>
+  <div class="card span-6 parent-only"><h3 data-i18n="activity_database">Activity Database</h3><div id="activityList"></div><button class="btn btn-ghost" onclick="addActivity()" data-i18n="btn_add_activity">＋ Add Activity</button></div>
 </div>
 </section>
 
 <section id="rewards" class="section">
 <div class="grid">
-  <div class="card span-6"><h3>Pending Completion Approval</h3><div id="approvalList"></div></div>
-  <div class="card span-6 parent-only"><h3>Points → Coins</h3><p>10 Points = 1 Coin</p>
+  <div class="card span-6"><h3 data-i18n="pending_completion_approval">Pending Completion Approval</h3><div id="approvalList"></div></div>
+  <div class="card span-6 parent-only"><h3 data-i18n="points_to_coins">Points → Coins</h3><p data-i18n="points_coins_rate">10 Points = 1 Coin</p>
 <div class="row">
   <select id="exchangeMember" style="padding:10px;border:1px solid var(--border);border-radius:10px">
     <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option>
   </select>
   <input id="exchangePoints" type="number" min="10" step="10" value="50" style="padding:10px;border:1px solid var(--border);border-radius:10px;width:140px">
-  <button class="btn btn-orange" onclick="exchangePointsFn()">Exchange</button>
+  <button class="btn btn-orange" onclick="exchangePointsFn()" data-i18n="btn_exchange">Exchange</button>
 </div>
-<p class="muted">Each family member keeps a separate Points and Coins balance.</p></div>
-  <div class="card span-12"><h3>Transaction History</h3><div id="history"></div></div>
+<p class="muted" data-i18n="wallet_note">Each family member keeps a separate Points and Coins balance.</p></div>
+  <div class="card span-12"><h3 data-i18n="transaction_history">Transaction History</h3><div id="history"></div></div>
 </div>
 </section>
 
@@ -427,12 +428,12 @@ body.modal-lock{overflow:hidden}
 <div class="card">
 <div class="row" style="justify-content:space-between">
   <div class="row">
-    <h3>Reward Shop</h3>
+    <h3 data-i18n="reward_shop">Reward Shop</h3>
     <select id="shopMember" onchange="renderShop()" style="padding:9px;border:1px solid var(--border);border-radius:10px">
       <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option>
     </select>
   </div>
-  <button class="btn btn-primary parent-only" onclick="openRewardModal()">＋ Add Reward</button>
+  <button class="btn btn-primary parent-only" onclick="openRewardModal()" data-i18n="btn_add_reward">＋ Add Reward</button>
 </div>
 <div id="shopGrid" class="shop"></div>
 </div>
@@ -441,150 +442,150 @@ body.modal-lock{overflow:hidden}
 </div>
 
 <div class="modal" id="eventModal"><div class="modal-card">
-<h3 id="eventModalTitle">Add Schedule Event</h3>
+<h3 id="eventModalTitle" data-i18n="add_event_title">Add Schedule Event</h3>
 <div class="form" id="eventEditorForm" autocomplete="new-password" data-form-type="other"><input type="text" tabindex="-1" aria-hidden="true" autocomplete="username" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><input type="password" tabindex="-1" aria-hidden="true" autocomplete="new-password" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-  <div class="form-grid"><input id="evTitle" name="schedule_activity_title" placeholder="Activity name" autocomplete="new-password" autocapitalize="sentences" data-lpignore="true" data-1p-ignore="true" readonly><select id="evMember" autocomplete="off"><option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option>Family</option></select></div>
+  <div class="form-grid"><input id="evTitle" name="schedule_activity_title" placeholder="Activity name" data-i18n-placeholder="activity_name_ph" autocomplete="new-password" autocapitalize="sentences" data-lpignore="true" data-1p-ignore="true" readonly><select id="evMember" autocomplete="off"><option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option data-i18n="member_family">Family</option></select></div>
   <select id="evCategory" autocomplete="off">
-    <option value="work_school">Work / School</option>
-    <option value="activities" selected>Activities</option>
-    <option value="challenges">Challenges</option>
-    <option value="spin_wheel">Spin Wheel</option>
+    <option value="work_school" data-i18n="cat_work_school">Work / School</option>
+    <option value="activities" selected data-i18n="cat_activities">Activities</option>
+    <option value="challenges" data-i18n="cat_challenges">Challenges</option>
+    <option value="spin_wheel" data-i18n="cat_spin_wheel">Spin Wheel</option>
   </select>
   <div class="form-grid"><input id="evDate" type="date" autocomplete="off"><input id="evTime" type="time" value="17:00" autocomplete="off"></div>
-  <div class="form-grid"><input id="evEndTime" type="time" value="18:00" autocomplete="off"><input id="evPoints" type="number" min="0" value="10" placeholder="Points" autocomplete="off"></div>
+  <div class="form-grid"><input id="evEndTime" type="time" value="18:00" autocomplete="off"><input id="evPoints" type="number" min="0" value="10" placeholder="Points" data-i18n-placeholder="points_ph" autocomplete="off"></div>
   <div class="form-grid">
     <select id="evRepeat" autocomplete="off" onchange="toggleRepeatOptions()">
-      <option value="none">Does not repeat</option>
-      <option value="daily">Repeat daily</option>
-      <option value="weekly">Repeat weekly</option>
-      <option value="monthly">Repeat monthly</option>
+      <option value="none" data-i18n="repeat_none">Does not repeat</option>
+      <option value="daily" data-i18n="repeat_daily">Repeat daily</option>
+      <option value="weekly" data-i18n="repeat_weekly">Repeat weekly</option>
+      <option value="monthly" data-i18n="repeat_monthly">Repeat monthly</option>
     </select>
-    <input id="evRepeatCount" type="number" min="2" max="100" value="4" placeholder="Number of occurrences" autocomplete="off" style="display:none">
+    <input id="evRepeatCount" type="number" min="2" max="100" value="4" placeholder="Number of occurrences" data-i18n-placeholder="repeat_count_ph" autocomplete="off" style="display:none">
   </div>
-  <div id="repeatHint" class="muted" style="display:none;margin-top:-4px">The first date is included. Each occurrence is saved as its own activity.</div>
-  <input id="evLocation" name="schedule_place_label" placeholder="Location name, e.g. Malmö Arena" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
-  <input id="evAddress" name="schedule_map_query" placeholder="Full address for Google Maps" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
-  <input id="evWeb" name="schedule_reference_link" type="text" placeholder="Website URL, e.g. https://..." autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
-  <input id="evEmail" name="schedule_contact_note" type="text" placeholder="Contact email" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
-  <textarea id="evDescription" name="schedule_activity_notes" placeholder="Activity details / notes" autocomplete="new-password" data-lpignore="true" data-1p-ignore="true" readonly></textarea>
-  <select id="evReminder" autocomplete="off"><option>10 min before</option><option>30 min before</option><option>1 hour before</option><option>1 day before</option><option>No reminder</option></select>
-  <div class="event-editor-actions"><button type="button" class="btn btn-ghost" onclick="closeModal('eventModal')">Cancel</button><button type="button" id="saveEventBtn" class="btn btn-primary" onclick="saveEvent()">Save</button></div>
+  <div id="repeatHint" class="muted" style="display:none;margin-top:-4px" data-i18n="repeat_hint">The first date is included. Each occurrence is saved as its own activity.</div>
+  <input id="evLocation" name="schedule_place_label" placeholder="Location name, e.g. Malmö Arena" data-i18n-placeholder="location_ph" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
+  <input id="evAddress" name="schedule_map_query" placeholder="Full address for Google Maps" data-i18n-placeholder="address_ph" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
+  <input id="evWeb" name="schedule_reference_link" type="text" placeholder="Website URL, e.g. https://..." data-i18n-placeholder="website_ph" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
+  <input id="evEmail" name="schedule_contact_note" type="text" placeholder="Contact email" data-i18n-placeholder="email_ph" autocomplete="new-password" autocorrect="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" readonly>
+  <textarea id="evDescription" name="schedule_activity_notes" placeholder="Activity details / notes" data-i18n-placeholder="description_ph" autocomplete="new-password" data-lpignore="true" data-1p-ignore="true" readonly></textarea>
+  <select id="evReminder" autocomplete="off"><option value="10m" data-i18n="reminder_10">10 min before</option><option value="30m" data-i18n="reminder_30">30 min before</option><option value="1h" data-i18n="reminder_1h">1 hour before</option><option value="1d" data-i18n="reminder_1d">1 day before</option><option value="none" data-i18n="reminder_none">No reminder</option></select>
+  <div class="event-editor-actions"><button type="button" class="btn btn-ghost" onclick="closeModal('eventModal')" data-i18n="btn_cancel">Cancel</button><button type="button" id="saveEventBtn" class="btn btn-primary" onclick="saveEvent()" data-i18n="btn_save">Save</button></div>
 </div></div></div>
 
 <div class="modal" id="detailModal"><div class="modal-card">
-  <div class="row" style="justify-content:space-between"><h3 id="detailTitle">Activity Details</h3><button class="btn btn-ghost" onclick="closeModal('detailModal')">✕</button></div>
+  <div class="row" style="justify-content:space-between"><h3 id="detailTitle" data-i18n="activity_details">Activity Details</h3><button class="btn btn-ghost" onclick="closeModal('detailModal')">✕</button></div>
   <div id="detailContent"></div>
 </div></div>
 
 
 <div class="modal" id="importModal"><div class="modal-card">
   <div class="row" style="justify-content:space-between">
-    <h3>📷 Import Schedule from Image</h3>
+    <h3 data-i18n="import_image_title">📷 Import Schedule from Image</h3>
     <button class="btn btn-ghost" onclick="closeModal('importModal')">✕</button>
   </div>
-  <p class="muted">Upload a school timetable or work rota. OCR will extract text first; review the rows before importing.</p>
+  <p class="muted" data-i18n="import_image_desc">Upload a school timetable or work rota. OCR will extract text first; review the rows before importing.</p>
   <div class="form">
     <div class="form-grid">
       <select id="importMember">
         <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option>
       </select>
       <select id="importCategory">
-        <option value="work_school">Work / School</option>
-        <option value="activities">Activities</option>
-        <option value="challenges">Challenges</option>
+        <option value="work_school" data-i18n="cat_work_school">Work / School</option>
+        <option value="activities" data-i18n="cat_activities">Activities</option>
+        <option value="challenges" data-i18n="cat_challenges">Challenges</option>
       </select>
     </div>
     <input id="importDefaultDate" type="date" value="2026-08-10">
     <input id="scheduleImage" type="file" accept="image/*" onchange="previewImportImage(event)">
     <img id="importImagePreview" class="image-preview" alt="Schedule preview">
-    <button class="btn btn-green" onclick="recognizeScheduleImage()">🔎 Recognize Image</button>
-    <div id="ocrStatus" class="ocr-status">No image recognized yet.</div>
-    <textarea id="ocrText" placeholder="OCR text will appear here. You can correct it before parsing." style="min-height:150px"></textarea>
-    <button class="btn btn-primary" onclick="parseOCRText()">Create Import Preview</button>
+    <button class="btn btn-green" onclick="recognizeScheduleImage()" data-i18n="btn_recognize_image">🔎 Recognize Image</button>
+    <div id="ocrStatus" class="ocr-status" data-i18n="ocr_status_default">No image recognized yet.</div>
+    <textarea id="ocrText" placeholder="OCR text will appear here. You can correct it before parsing." data-i18n-placeholder="ocr_text_ph" style="min-height:150px"></textarea>
+    <button class="btn btn-primary" onclick="parseOCRText()" data-i18n="btn_create_preview">Create Import Preview</button>
     <div id="importPreviewWrap"></div>
     <div class="right">
-      <button class="btn btn-ghost" onclick="closeModal('importModal')">Cancel</button>
-      <button class="btn btn-orange" onclick="confirmOCRImport()">Confirm Import</button>
+      <button class="btn btn-ghost" onclick="closeModal('importModal')" data-i18n="btn_cancel">Cancel</button>
+      <button class="btn btn-orange" onclick="confirmOCRImport()" data-i18n="btn_confirm_import">Confirm Import</button>
     </div>
   </div>
 </div></div>
 
 <div class="modal" id="calendarImportModal"><div class="modal-card">
   <div class="row" style="justify-content:space-between">
-    <h3>📅 Import Calendar</h3>
+    <h3 data-i18n="import_calendar_title">📅 Import Calendar</h3>
     <button class="btn btn-ghost" onclick="closeModal('calendarImportModal')">✕</button>
   </div>
-  <p class="muted">Import a standard <strong>.ics / .ical</strong> file, or paste a public calendar subscription URL from Google Calendar, Apple/iCloud, Outlook or another calendar service. Review the events before saving them to the family schedule.</p><div class="ocr-status" style="margin-bottom:10px"><strong>Auto owner detection:</strong> Jerry = 15 · Henrik = 18. Names are checked first; player-number markers such as #15, No. 15, Nr 18, Player 18 or Spelare 18 are also recognized. If both are found, the event is marked Family. You can change the owner in the preview.</div>
+  <p class="muted" data-i18n="import_calendar_desc">Import a standard <strong>.ics / .ical</strong> file, or paste a public calendar subscription URL from Google Calendar, Apple/iCloud, Outlook or another calendar service. Review the events before saving them to the family schedule.</p><div class="ocr-status" style="margin-bottom:10px" data-i18n="import_calendar_owner_note"><strong>Auto owner detection:</strong> Jerry = 15 · Henrik = 18. Names are checked first; player-number markers such as #15, No. 15, Nr 18, Player 18 or Spelare 18 are also recognized. If both are found, the event is marked Family. You can change the owner in the preview.</div>
   <div class="form">
     <div class="form-grid">
       <select id="calendarImportMember" onchange="if(calendarImportRows.length)renderCalendarImportPreview()" title="Fallback owner when no name/player number is detected">
-        <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option>Family</option>
+        <option>Jerry</option><option>Henrik</option><option>Mom</option><option>Dad</option><option data-i18n="member_family">Family</option>
       </select>
       <select id="calendarImportCategory">
-        <option value="work_school">Work / School</option>
-        <option value="activities" selected>Activities</option>
-        <option value="challenges">Challenges</option>
-        <option value="spin_wheel">Spin Wheel</option>
+        <option value="work_school" data-i18n="cat_work_school">Work / School</option>
+        <option value="activities" selected data-i18n="cat_activities">Activities</option>
+        <option value="challenges" data-i18n="cat_challenges">Challenges</option>
+        <option value="spin_wheel" data-i18n="cat_spin_wheel">Spin Wheel</option>
       </select>
     </div>
     <div class="card" style="padding:12px">
-      <strong>Option 1 · Calendar file</strong>
+      <strong data-i18n="calendar_option1">Option 1 · Calendar file</strong>
       <input id="calendarFile" style="margin-top:8px" type="file" accept=".ics,.ical,text/calendar" onchange="readCalendarFile(event)">
     </div>
     <div class="card" style="padding:12px">
-      <strong>Option 2 · Calendar URL</strong>
+      <strong data-i18n="calendar_option2">Option 2 · Calendar URL</strong>
       <div class="row" style="margin-top:8px;align-items:stretch">
         <input id="calendarUrl" style="flex:1;min-width:240px" inputmode="url" placeholder="https://... or webcal://...">
-        <button class="btn btn-green" type="button" onclick="readCalendarUrl()">Load URL</button>
+        <button class="btn btn-green" type="button" onclick="readCalendarUrl()" data-i18n="btn_load_url">Load URL</button>
       </div>
-      <div class="muted" style="margin-top:6px">Use a public/private calendar subscription URL that returns iCalendar (.ics) data. The URL is fetched by your NAS.</div>
+      <div class="muted" style="margin-top:6px" data-i18n="calendar_url_note">Use a public/private calendar subscription URL that returns iCalendar (.ics) data. The URL is fetched by your NAS.</div>
     </div>
-    <div id="calendarImportStatus" class="ocr-status">Choose an .ics/.ical file or enter a calendar URL.</div>
+    <div id="calendarImportStatus" class="ocr-status" data-i18n="calendar_status_default">Choose an .ics/.ical file or enter a calendar URL.</div>
     <div id="calendarImportPreviewWrap"></div>
     <div class="right">
-      <button class="btn btn-ghost" onclick="closeModal('calendarImportModal')">Cancel</button>
-      <button class="btn btn-orange" onclick="confirmCalendarImport()">Confirm Import</button>
+      <button class="btn btn-ghost" onclick="closeModal('calendarImportModal')" data-i18n="btn_cancel">Cancel</button>
+      <button class="btn btn-orange" onclick="confirmCalendarImport()" data-i18n="btn_confirm_import">Confirm Import</button>
     </div>
   </div>
 </div></div>
 
 <div class="modal" id="rewardModal"><div class="modal-card">
-<h3>Add Shop Reward</h3>
+<h3 data-i18n="add_reward_title">Add Shop Reward</h3>
 <div class="form">
-<input id="rwName" placeholder="Reward name"><input id="rwEmoji" placeholder="Emoji" value="🎁"><input id="rwPrice" type="number" min="1" value="10">
-<div class="right"><button class="btn btn-ghost" onclick="closeModal('rewardModal')">Cancel</button> <button class="btn btn-primary" onclick="saveReward()">Save</button></div>
+<input id="rwName" placeholder="Reward name" data-i18n-placeholder="reward_name_ph"><input id="rwEmoji" placeholder="Emoji" data-i18n-placeholder="emoji_ph" value="🎁"><input id="rwPrice" type="number" min="1" value="10">
+<div class="right"><button class="btn btn-ghost" onclick="closeModal('rewardModal')" data-i18n="btn_cancel">Cancel</button> <button class="btn btn-primary" onclick="saveReward()" data-i18n="btn_save">Save</button></div>
 </div></div></div>
 
 
 <div class="modal" id="pinSettingsModal"><div class="modal-card">
   <div class="row" style="justify-content:space-between">
-    <h3>🔐 PIN Settings</h3>
+    <h3 data-i18n="pin_settings_title">🔐 PIN Settings</h3>
     <button class="btn btn-ghost" onclick="closeModal('pinSettingsModal')">✕</button>
   </div>
   <div class="pin-settings-grid">
     <div class="pin-settings-section">
-      <h4>Change My PIN</h4>
+      <h4 data-i18n="change_my_pin">Change My PIN</h4>
       <div class="pin-row">
-        <input id="currentPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Current PIN">
-        <input id="newPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="New 6-digit PIN">
+        <input id="currentPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Current PIN" data-i18n-placeholder="current_pin_ph">
+        <input id="newPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="New 6-digit PIN" data-i18n-placeholder="new_pin_ph">
       </div>
       <div class="pin-row" style="margin-top:10px">
-        <input id="confirmPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Confirm new PIN">
-        <button class="btn btn-primary" onclick="changeOwnPin()">Change PIN</button>
+        <input id="confirmPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="Confirm new PIN" data-i18n-placeholder="confirm_pin_ph">
+        <button class="btn btn-primary" onclick="changeOwnPin()" data-i18n="btn_change_pin">Change PIN</button>
       </div>
-      <div class="pin-help">Your new PIN is saved on this browser/device.</div>
+      <div class="pin-help" data-i18n="pin_help_own">Your new PIN is saved on this browser/device.</div>
     </div>
 
     <div class="pin-settings-section" id="parentPinAdmin">
-      <h4>Reset Child PIN</h4>
+      <h4 data-i18n="reset_child_pin">Reset Child PIN</h4>
       <div class="pin-row">
         <select id="resetChildSelect"><option>Jerry</option><option>Henrik</option></select>
-        <input id="resetChildPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="New 6-digit PIN">
+        <input id="resetChildPinInput" type="password" inputmode="numeric" maxlength="6" placeholder="New 6-digit PIN" data-i18n-placeholder="new_pin_ph">
       </div>
       <div class="right" style="margin-top:10px">
-        <button class="btn btn-orange" onclick="resetChildPin()">Reset Child PIN</button>
+        <button class="btn btn-orange" onclick="resetChildPin()" data-i18n="btn_reset_child_pin">Reset Child PIN</button>
       </div>
-      <div class="pin-help">Only Parent accounts can reset a child's PIN.</div>
+      <div class="pin-help" data-i18n="pin_help_child">Only Parent accounts can reset a child's PIN.</div>
     </div>
   </div>
 </div></div>
@@ -604,15 +605,179 @@ let state={
 };
 let currentUser=null, selectedLoginUser=null, importRows=[];
 
+let lang=localStorage.getItem("taoqibao_lang")||"en";
+const I18N={
+  en:{
+    sub_family:"Family Schedule & Reward System",sub_parent_dashboard:"Family Dashboard & Parent Controls",sub_child_dashboard:"My Schedule & Rewards",nav_home:"🏠 Home",nav_schedule:"📅 Schedule",nav_wheel:"🎡 Spin Wheel",nav_rewards:"⭐ Rewards",nav_shop:"🛍️ Shop",
+    not_signed_in:"Not signed in",menu_pin_settings:"PIN Settings",menu_switch_user:"Switch User",menu_logout:"Logout",
+    todays_events:"Today's Events",pending_approval:"Pending Approval",role_parent:"Parent",role_child:"Child",family_progress:"Family Progress",
+    todays_schedule:"Today's Schedule",quick_actions:"Quick Actions",btn_add_event:"＋ Add Event",btn_spin_activity:"🎡 Spin Activity",btn_open_shop:"🎁 Open Shop",
+    who_are_you:"Who are you?",enter_pin:"Enter PIN",login_btn:"Login",demo_pins:"First-use PIN for everyone: 123456. You can change it after login.",
+    all_family:"All Family",member_family:"Family",all_categories:"All Categories",cat_work_school:"Work / School",cat_activities:"Activities",cat_challenges:"Challenges",cat_spin_wheel:"Spin Wheel",
+    week_view:"Week View",day_view:"Day View",month_view:"Month View",btn_import_image:"📷 Import from Image",btn_import_calendar:"📅 Import Calendar (.ics / URL)",
+    wheel_heading:"Spin Wheel",spin_btn:"SPIN 🎡",selected_activity:"Selected Activity",btn_add_to_schedule:"Add to Schedule",activity_database:"Activity Database",btn_add_activity:"＋ Add Activity",
+    pending_completion_approval:"Pending Completion Approval",points_to_coins:"Points → Coins",points_coins_rate:"10 Points = 1 Coin",btn_exchange:"Exchange",
+    wallet_note:"Each family member keeps a separate Points and Coins balance.",transaction_history:"Transaction History",reward_shop:"Reward Shop",btn_add_reward:"＋ Add Reward",
+    add_event_title:"Add Schedule Event",edit_event_title:"Edit Schedule Event",copy_event_title:"Copy Event — choose member",
+    activity_name_ph:"Activity name",points_ph:"Points",repeat_none:"Does not repeat",repeat_daily:"Repeat daily",repeat_weekly:"Repeat weekly",repeat_monthly:"Repeat monthly",
+    repeat_count_ph:"Number of occurrences",repeat_hint:"The first date is included. Each occurrence is saved as its own activity.",
+    location_ph:"Location name, e.g. Malmö Arena",address_ph:"Full address for Google Maps",website_ph:"Website URL, e.g. https://...",email_ph:"Contact email",description_ph:"Activity details / notes",
+    reminder_10:"10 min before",reminder_30:"30 min before",reminder_1h:"1 hour before",reminder_1d:"1 day before",reminder_none:"No reminder",
+    btn_cancel:"Cancel",btn_save:"Save",activity_details:"Activity Details",
+    import_image_title:"📷 Import Schedule from Image",import_image_desc:"Upload a school timetable or work rota. OCR will extract text first; review the rows before importing.",
+    btn_recognize_image:"🔎 Recognize Image",ocr_status_default:"No image recognized yet.",ocr_text_ph:"OCR text will appear here. You can correct it before parsing.",
+    btn_create_preview:"Create Import Preview",btn_confirm_import:"Confirm Import",
+    import_calendar_title:"📅 Import Calendar",
+    import_calendar_desc:"Import a standard .ics / .ical file, or paste a public calendar subscription URL from Google Calendar, Apple/iCloud, Outlook or another calendar service. Review the events before saving them to the family schedule.",
+    import_calendar_owner_note:"Auto owner detection: Jerry = 15 · Henrik = 18. Names are checked first; player-number markers such as #15, No. 15, Nr 18, Player 18 or Spelare 18 are also recognized. If both are found, the event is marked Family. You can change the owner in the preview.",
+    calendar_option1:"Option 1 · Calendar file",calendar_option2:"Option 2 · Calendar URL",btn_load_url:"Load URL",
+    calendar_url_note:"Use a public/private calendar subscription URL that returns iCalendar (.ics) data. The URL is fetched by your NAS.",
+    calendar_status_default:"Choose an .ics/.ical file or enter a calendar URL.",
+    add_reward_title:"Add Shop Reward",reward_name_ph:"Reward name",emoji_ph:"Emoji",
+    pin_settings_title:"🔐 PIN Settings",change_my_pin:"Change My PIN",current_pin_ph:"Current PIN",new_pin_ph:"New 6-digit PIN",confirm_pin_ph:"Confirm new PIN",
+    btn_change_pin:"Change PIN",pin_help_own:"Your new PIN is saved on this browser/device.",reset_child_pin:"Reset Child PIN",btn_reset_child_pin:"Reset Child PIN",
+    pin_help_child:"Only Parent accounts can reset a child's PIN.",
+    status_connecting:"connecting…",status_online:"online",status_offline:"offline",status_connection_error:"connection error",
+    status_waiting_approval:"Waiting for Parent Approval",status_completed_confirmed:"Completed & Confirmed",status_not_completed:"Not Completed",
+    detail_member:"Member",detail_datetime:"Date & Time",detail_location:"Location",detail_address:"Address",detail_category:"Category",detail_points:"Points",detail_reminder:"Reminder",detail_details:"Details",
+    link_open_maps:"📍 Open Google Maps",link_open_website:"🌐 Open Website",link_email:"✉️ Email",btn_copy_event:"📋 Copy Event",btn_edit:"✏️ Edit",btn_delete_event:"🗑️ Delete Event",
+    no_events_today:"No events today.",no_pending_approvals:"No pending approvals.",nothing_waiting:"Nothing waiting.",
+    confirm_label:"Confirm",reject_label:"Reject",earn_after_confirmation:"Earn ⭐ {points} after confirmation",waiting_parent_confirmation:"Waiting for parent confirmation",waiting_for_parent:"Waiting for parent",reward_points_label:"Reward ⭐ {points}",
+    redeem_btn:"Redeem",not_enough_coins_btn:"Not enough coins",
+    toast_login_required:"Login required",toast_enter_activity_name:"Enter activity name",toast_choose_date:"Choose a date",toast_invalid_date:"Invalid date",
+    toast_parent_required:"Parent account required",toast_event_not_found:"This event could not be found. Please close and open it again.",
+    toast_event_saved:"Event saved on NAS",toast_recurring_added:"{n} recurring activities added",toast_save_failed:"Save failed. Please try again.",
+    toast_event_deleted:"Event deleted from NAS",toast_delete_failed:"Delete failed",
+    confirm_delete_event:"Delete \"{title}\" from the schedule?{note}",
+    confirm_delete_event_note:"\n\nThis event was already confirmed. Deleting it will NOT remove points that were already awarded.",
+    toast_copied_from:"Copied from {member}. Choose another member and save.",
+    toast_no_activities:"No activities",toast_spin_first:"Spin first",toast_selected:"Selected: {name}",
+    toast_not_your_event:"Not your event",toast_waiting_approval:"{title} is waiting for parent approval",
+    toast_activity_confirmed:"Activity confirmed",toast_returned_not_completed:"Returned to Not Completed",
+    toast_use_multiples_10:"Use multiples of 10",toast_not_enough_points:"{member} does not have enough points",toast_coins_added:"{member} +{coins} Coins",
+    toast_not_enough_coins:"Not enough coins",toast_redeemed:"{member} redeemed: {name}",
+    toast_reward_added:"Reward added",toast_enter_reward_name:"Enter reward name",
+    toast_pin_min6:"New PIN must be exactly 6 digits",toast_pin_mismatch:"New PIN confirmation does not match",toast_current_pin_incorrect:"Current PIN is incorrect",
+    toast_pin_changed:"PIN changed",toast_child_pin_reset:"{child}'s PIN was reset",toast_reset_failed:"Reset failed",
+    toast_welcome:"Welcome, {name}",toast_incorrect_pin:"Incorrect PIN",toast_no_profile:"No family profile found for this account. Ask a parent to set it up in Supabase.",
+    toast_cannot_reach_supabase:"Cannot reach Supabase",
+    toast_choose_image:"Choose an image first",toast_ocr_load_failed:"OCR library could not load.",toast_recognizing:"Recognizing…",toast_recognition_finished:"Recognition finished.",toast_recognition_failed:"Recognition failed.",
+    toast_no_ocr_text:"No OCR text to parse",toast_image_selected:"Image selected. Click Recognize Image.",
+    toast_no_calendar_events_file:"No calendar events were found in this file.",toast_calendar_file_read_failed:"Could not read this calendar file.",toast_calendar_events_found:"{n} event(s) found. Review before importing.",
+    toast_enter_calendar_url:"Enter a calendar URL first",toast_loading_calendar_url:"Loading calendar URL…",toast_calendar_url_no_events:"The URL loaded, but no calendar events were found.",
+    toast_calendar_events_found_url:"{n} event(s) found from URL. Review before importing.",toast_calendar_url_load_failed:"Could not load this calendar URL.",
+    toast_calendar_events_loaded:"{n} event(s) loaded. All events are shown below in date and time order.",toast_choose_calendar_first:"Choose a calendar file or load a calendar URL first",
+    toast_calendar_imported:"{n} calendar event(s) imported in time order",toast_import_failed:"Import failed",
+    owner_default:"Default",owner_manual:"Manual",owner_detected:"Detected: {reason}",
+    toast_ocr_imported:"{n} schedule item(s) imported",
+    btn_mark_complete:"✓ Mark Complete",btn_details:"Details",points_label:"⭐ {points} Points",coins_label:"🪙 {coins} Coins",
+    saving:"Saving…",toast_create_preview_first:"Create import preview first",
+    table_use:"Use",table_activity:"Activity",table_date:"Date",table_time:"Time",table_category:"Category",
+    table_event:"Event",table_owner:"Owner",table_location:"Location",all_day:"All day",
+    reason_both:"Jerry + Henrik",reason_jerry_name:"name Jerry",reason_jerry_number:"player #15",reason_henrik_name:"name Henrik",reason_henrik_number:"player #18",
+    page_title_home:"Taoqibao Schedule",page_title_schedule:"Family Schedule",page_title_rewards:"Rewards Center"
+  },
+  zh:{
+    sub_family:"家庭日程与奖励系统",sub_parent_dashboard:"家庭看板与家长管理",sub_child_dashboard:"我的日程与奖励",nav_home:"🏠 首页",nav_schedule:"📅 日程",nav_wheel:"🎡 转盘",nav_rewards:"⭐ 奖励",nav_shop:"🛍️ 商店",
+    not_signed_in:"尚未登录",menu_pin_settings:"PIN 设置",menu_switch_user:"切换用户",menu_logout:"退出登录",
+    todays_events:"今日事项",pending_approval:"待审批",role_parent:"家长",role_child:"孩子",family_progress:"家庭进度",
+    todays_schedule:"今日日程",quick_actions:"快捷操作",btn_add_event:"＋ 添加事项",btn_spin_activity:"🎡 转盘活动",btn_open_shop:"🎁 打开商店",
+    who_are_you:"你是谁？",enter_pin:"输入 PIN 码",login_btn:"登录",demo_pins:"所有人的初始 PIN 码：123456，登录后可以修改。",
+    all_family:"全部家庭成员",member_family:"全家",all_categories:"全部分类",cat_work_school:"工作 / 学校",cat_activities:"活动",cat_challenges:"挑战",cat_spin_wheel:"转盘",
+    week_view:"周视图",day_view:"日视图",month_view:"月视图",btn_import_image:"📷 从图片导入",btn_import_calendar:"📅 导入日历 (.ics / URL)",
+    wheel_heading:"转盘",spin_btn:"转起来 🎡",selected_activity:"选中的活动",btn_add_to_schedule:"添加到日程",activity_database:"活动库",btn_add_activity:"＋ 添加活动",
+    pending_completion_approval:"待完成审批",points_to_coins:"积分 → 金币",points_coins_rate:"10 积分 = 1 金币",btn_exchange:"兑换",
+    wallet_note:"每位家庭成员的积分和金币分别独立计算。",transaction_history:"交易记录",reward_shop:"奖励商店",btn_add_reward:"＋ 添加奖励",
+    add_event_title:"添加日程事项",edit_event_title:"编辑日程事项",copy_event_title:"复制事项 — 选择成员",
+    activity_name_ph:"活动名称",points_ph:"积分",repeat_none:"不重复",repeat_daily:"每天重复",repeat_weekly:"每周重复",repeat_monthly:"每月重复",
+    repeat_count_ph:"重复次数",repeat_hint:"包含第一个日期，每次重复都会单独保存为一个活动。",
+    location_ph:"地点名称，例如：Malmö Arena",address_ph:"用于 Google 地图的完整地址",website_ph:"网站链接，例如：https://...",email_ph:"联系邮箱",description_ph:"活动详情 / 备注",
+    reminder_10:"提前 10 分钟",reminder_30:"提前 30 分钟",reminder_1h:"提前 1 小时",reminder_1d:"提前 1 天",reminder_none:"不提醒",
+    btn_cancel:"取消",btn_save:"保存",activity_details:"活动详情",
+    import_image_title:"📷 从图片导入日程",import_image_desc:"上传学校课程表或工作排班表。系统会先进行文字识别（OCR），导入前请核对每一行。",
+    btn_recognize_image:"🔎 识别图片",ocr_status_default:"尚未识别图片。",ocr_text_ph:"识别出的文字会显示在这里，导入前可以修改。",
+    btn_create_preview:"生成导入预览",btn_confirm_import:"确认导入",
+    import_calendar_title:"📅 导入日历",
+    import_calendar_desc:"导入标准 .ics / .ical 文件，或粘贴来自 Google 日历、Apple/iCloud、Outlook 或其他日历服务的公开订阅链接。保存到家庭日程前请先核对事项。",
+    import_calendar_owner_note:"自动识别归属人：Jerry = 15 号 · Henrik = 18 号。优先匹配姓名；也支持识别 #15、No.15、Nr 18、Player 18、Spelare 18 等球衣号码标记。若同时匹配到两人，则标记为“全家”。你也可以在预览中手动更改归属人。",
+    calendar_option1:"方式一 · 日历文件",calendar_option2:"方式二 · 日历链接",btn_load_url:"加载链接",
+    calendar_url_note:"使用可返回 iCalendar (.ics) 数据的公开/私密日历订阅链接，该链接会通过你的 NAS 获取。",
+    calendar_status_default:"请选择 .ics/.ical 文件或输入日历链接。",
+    add_reward_title:"添加商店奖励",reward_name_ph:"奖励名称",emoji_ph:"表情符号",
+    pin_settings_title:"🔐 PIN 设置",change_my_pin:"修改我的 PIN 码",current_pin_ph:"当前 PIN 码",new_pin_ph:"新的 6 位 PIN 码",confirm_pin_ph:"确认新 PIN 码",
+    btn_change_pin:"修改 PIN 码",pin_help_own:"新 PIN 码会保存在此浏览器/设备上。",reset_child_pin:"重置孩子的 PIN 码",btn_reset_child_pin:"重置孩子 PIN 码",
+    pin_help_child:"只有家长账号才能重置孩子的 PIN 码。",
+    status_connecting:"连接中…",status_online:"在线",status_offline:"离线",status_connection_error:"连接错误",
+    status_waiting_approval:"等待家长审批",status_completed_confirmed:"已完成并确认",status_not_completed:"未完成",
+    detail_member:"成员",detail_datetime:"日期与时间",detail_location:"地点",detail_address:"地址",detail_category:"分类",detail_points:"积分",detail_reminder:"提醒",detail_details:"详情",
+    link_open_maps:"📍 打开 Google 地图",link_open_website:"🌐 打开网站",link_email:"✉️ 发邮件",btn_copy_event:"📋 复制事项",btn_edit:"✏️ 编辑",btn_delete_event:"🗑️ 删除事项",
+    no_events_today:"今天没有事项。",no_pending_approvals:"没有待审批事项。",nothing_waiting:"没有待处理事项。",
+    confirm_label:"确认",reject_label:"驳回",earn_after_confirmation:"确认后获得 ⭐ {points} 积分",waiting_parent_confirmation:"等待家长确认",waiting_for_parent:"等待家长处理",reward_points_label:"奖励 ⭐ {points}",
+    redeem_btn:"兑换",not_enough_coins_btn:"金币不足",
+    toast_login_required:"请先登录",toast_enter_activity_name:"请输入活动名称",toast_choose_date:"请选择日期",toast_invalid_date:"日期无效",
+    toast_parent_required:"需要家长账号",toast_event_not_found:"未找到该事项，请关闭后重新打开。",
+    toast_event_saved:"事项已保存",toast_recurring_added:"已添加 {n} 个重复活动",toast_save_failed:"保存失败，请重试。",
+    toast_event_deleted:"事项已删除",toast_delete_failed:"删除失败",
+    confirm_delete_event:"确定要从日程中删除“{title}”吗？{note}",
+    confirm_delete_event_note:"\n\n该事项已被确认完成，删除它不会收回已发放的积分。",
+    toast_copied_from:"已从 {member} 复制。请选择其他成员后保存。",
+    toast_no_activities:"没有可用活动",toast_spin_first:"请先转动转盘",toast_selected:"已选中：{name}",
+    toast_not_your_event:"这不是你的事项",toast_waiting_approval:"{title} 正在等待家长审批",
+    toast_activity_confirmed:"活动已确认",toast_returned_not_completed:"已退回为未完成",
+    toast_use_multiples_10:"请使用 10 的倍数",toast_not_enough_points:"{member} 的积分不足",toast_coins_added:"{member} +{coins} 金币",
+    toast_not_enough_coins:"金币不足",toast_redeemed:"{member} 兑换了：{name}",
+    toast_reward_added:"奖励已添加",toast_enter_reward_name:"请输入奖励名称",
+    toast_pin_min6:"新 PIN 码必须是 6 位数字",toast_pin_mismatch:"两次输入的新 PIN 码不一致",toast_current_pin_incorrect:"当前 PIN 码不正确",
+    toast_pin_changed:"PIN 码已修改",toast_child_pin_reset:"{child} 的 PIN 码已重置",toast_reset_failed:"重置失败",
+    toast_welcome:"欢迎，{name}",toast_incorrect_pin:"PIN 码不正确",toast_no_profile:"未找到该账号的家庭成员资料，请让家长在 Supabase 中设置。",
+    toast_cannot_reach_supabase:"无法连接到 Supabase",
+    toast_choose_image:"请先选择一张图片",toast_ocr_load_failed:"OCR 识别库加载失败。",toast_recognizing:"识别中…",toast_recognition_finished:"识别完成。",toast_recognition_failed:"识别失败。",
+    toast_no_ocr_text:"没有可解析的识别文字",toast_image_selected:"已选择图片，请点击“识别图片”。",
+    toast_no_calendar_events_file:"该文件中未找到日历事项。",toast_calendar_file_read_failed:"无法读取该日历文件。",toast_calendar_events_found:"找到 {n} 个事项，导入前请先核对。",
+    toast_enter_calendar_url:"请先输入日历链接",toast_loading_calendar_url:"正在加载日历链接…",toast_calendar_url_no_events:"链接已加载，但未找到日历事项。",
+    toast_calendar_events_found_url:"从链接中找到 {n} 个事项，导入前请先核对。",toast_calendar_url_load_failed:"无法加载该日历链接。",
+    toast_calendar_events_loaded:"已加载 {n} 个事项，以下按日期和时间顺序显示。",toast_choose_calendar_first:"请先选择日历文件或加载日历链接",
+    toast_calendar_imported:"已按时间顺序导入 {n} 个日历事项",toast_import_failed:"导入失败",
+    owner_default:"默认",owner_manual:"手动",owner_detected:"识别依据：{reason}",
+    toast_ocr_imported:"已导入 {n} 个日程项目",
+    btn_mark_complete:"✓ 标记完成",btn_details:"详情",points_label:"⭐ {points} 积分",coins_label:"🪙 {coins} 金币",
+    saving:"保存中…",toast_create_preview_first:"请先生成导入预览",
+    table_use:"使用",table_activity:"活动",table_date:"日期",table_time:"时间",table_category:"分类",
+    table_event:"事项",table_owner:"归属人",table_location:"地点",all_day:"全天",
+    reason_both:"Jerry + Henrik",reason_jerry_name:"姓名 Jerry",reason_jerry_number:"15 号球员",reason_henrik_name:"姓名 Henrik",reason_henrik_number:"18 号球员",
+    page_title_home:"Taoqibao Schedule",page_title_schedule:"家庭日程",page_title_rewards:"奖励中心"
+  }
+};
+function t(key,vars){
+  let str=(I18N[lang]&&I18N[lang][key])??I18N.en[key]??key;
+  if(vars)Object.keys(vars).forEach(k=>{str=str.replace(new RegExp("\\{"+k+"\\}","g"),vars[k])});
+  return str;
+}
+function applyStaticTranslations(){
+  document.documentElement.lang=lang==="zh"?"zh-CN":"en";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{el.textContent=t(el.dataset.i18n)});
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{el.placeholder=t(el.dataset.i18nPlaceholder)});
+  const toggle=document.getElementById("langToggle");
+  if(toggle)toggle.textContent=lang==="en"?"中文":"English";
+}
+function toggleLang(){
+  lang=lang==="en"?"zh":"en";
+  localStorage.setItem("taoqibao_lang",lang);
+  applyStaticTranslations();
+  const pt=document.getElementById("pageTitle");
+  if(pt&&pt.dataset.page)pt.textContent=pageTitleFor(pt.dataset.page);
+  renderAll();
+}
+
 function setServerStatus(ok,msg){
   const el=document.getElementById("serverStatus");
   if(!el)return;
-  el.textContent=ok?`Supabase: ${msg||"online"}`:`Supabase: ${msg||"offline"}`;
+  el.textContent=`Supabase: ${msg||(ok?t("status_online"):t("status_offline"))}`;
   el.style.color=ok?"#087443":"#b91c1c";
 }
 async function loadUserProfile(authUser){
   const {data,error}=await sb.from("profiles").select("name,role,avatar").eq("id",authUser.id).single();
-  if(error||!data) throw new Error("No family profile found for this account. Ask a parent to set it up in Supabase.");
+  if(error||!data) throw new Error(t("toast_no_profile"));
   currentUser={name:data.name,role:data.role,avatar:data.avatar,email:authUser.email};
 }
 async function loadServerState(){
@@ -629,10 +794,11 @@ async function saveServerState(){
   renderAll();
 }
 async function boot(){
+  applyStaticTranslations();
   try{
     const {data:{session},error}=await sb.auth.getSession();
     if(error) throw error;
-    setServerStatus(true,"online");
+    setServerStatus(true,t("status_online"));
     if(session){
       await loadUserProfile(session.user);
       loginOverlay.classList.add("hidden");
@@ -643,16 +809,16 @@ async function boot(){
     }
   }catch(err){
     console.error(err);
-    setServerStatus(false,"connection error");
+    setServerStatus(false,t("status_connection_error"));
     loginOverlay.classList.remove("hidden");
-    toast("Cannot reach Supabase");
+    toast(t("toast_cannot_reach_supabase"));
   }
 }
 
 function selectLoginUser(name){
   selectedLoginUser=name;
   const avatars={Mom:"👩",Dad:"👨",Jerry:"👦",Henrik:"👦"};
-  pinUserLabel.textContent=`${avatars[name]} ${name} · Enter 6-digit PIN`;
+  pinUserLabel.textContent=`${avatars[name]} ${name} · ${t("enter_pin")}`;
   loginPin.value="";
   pinPanel.classList.add("active");
   setTimeout(()=>loginPin.focus(),50);
@@ -662,13 +828,13 @@ async function loginSelectedUser(){
   const email=FAMILY_EMAILS[selectedLoginUser];
   try{
     const {data,error}=await sb.auth.signInWithPassword({email,password:loginPin.value});
-    if(error) throw new Error("Incorrect PIN");
+    if(error) throw new Error(t("toast_incorrect_pin"));
     await loadUserProfile(data.user);
     loginOverlay.classList.add("hidden");
     userMenuPop.classList.remove("open");
     await loadServerState();
     applyUserSession();
-    toast(`Welcome, ${currentUser.name}`);
+    toast(t("toast_welcome",{name:currentUser.name}));
   }catch(e){toast(e.message);loginPin.value="";}
 }
 async function logoutUser(){
@@ -685,7 +851,7 @@ function isParent(){return currentUser?.role==="parent"}
 function isChild(){return currentUser?.role==="child"}
 
 function openPinSettings(){
-  if(!currentUser){toast("Login required");return}
+  if(!currentUser){toast(t("toast_login_required"));return}
   userMenuPop.classList.remove("open");
   currentPinInput.value="";newPinInput.value="";confirmPinInput.value="";resetChildPinInput.value="";
   parentPinAdmin.style.display=isParent()?"":"none";
@@ -694,56 +860,57 @@ function openPinSettings(){
 function validFourDigitPin(pin){return /^\d{6}$/.test(pin)}
 async function changeOwnPin(){
   const current=currentPinInput.value.trim(), next=newPinInput.value.trim(), confirm=confirmPinInput.value.trim();
-  if(!validFourDigitPin(next)){toast("New PIN must be exactly 6 digits");return}
-  if(next!==confirm){toast("New PIN confirmation does not match");return}
+  if(!validFourDigitPin(next)){toast(t("toast_pin_min6"));return}
+  if(next!==confirm){toast(t("toast_pin_mismatch"));return}
   try{
     const {error:verifyErr}=await sb.auth.signInWithPassword({email:currentUser.email,password:current});
-    if(verifyErr) throw new Error("Current PIN is incorrect");
+    if(verifyErr) throw new Error(t("toast_current_pin_incorrect"));
     const {error}=await sb.auth.updateUser({password:next});
     if(error) throw error;
     currentPinInput.value="";newPinInput.value="";confirmPinInput.value="";
-    toast("PIN changed");
+    toast(t("toast_pin_changed"));
   }catch(e){toast(e.message)}
 }
 async function resetChildPin(){
-  if(!isParent()){toast("Parent account required");return}
+  if(!isParent()){toast(t("toast_parent_required"));return}
   const newPin=resetChildPinInput.value.trim();
-  if(!validFourDigitPin(newPin)){toast("New PIN must be exactly 6 digits");return}
+  if(!validFourDigitPin(newPin)){toast(t("toast_pin_min6"));return}
   try{
     const {data,error}=await sb.functions.invoke("reset-child-pin",{body:{child:resetChildSelect.value,newPin}});
     if(error) throw error;
     if(data?.error) throw new Error(data.error);
     resetChildPinInput.value="";
-    toast(`${resetChildSelect.value}'s PIN was reset`);
-  }catch(e){toast(e.message||"Reset failed")}
+    toast(t("toast_child_pin_reset",{child:resetChildSelect.value}));
+  }catch(e){toast(e.message||t("toast_reset_failed"))}
 }
 function applyUserSession(){
   if(!currentUser)return;
   currentUserName.textContent=`${currentUser.avatar} ${currentUser.name}`;
-  currentUserRole.textContent=currentUser.role==="parent"?"Parent Account":"Child Account";
-  pageSubTitle.textContent=isParent()?"Family Dashboard & Parent Controls":"My Schedule & Rewards";
+  currentUserRole.textContent=currentUser.role==="parent"?t("role_parent"):t("role_child");
+  pageSubTitle.textContent=isParent()?t("sub_parent_dashboard"):t("sub_child_dashboard");
   document.querySelectorAll(".parent-only").forEach(el=>el.style.display=isParent()?"":"none");
   const shopSel=document.getElementById("shopMember");
   if(shopSel){shopSel.style.display=isParent()?"":"none";if(isChild())shopSel.value=currentUser.name}
   renderAll();
 }
 
-const titles={home:"Taoqibao Schedule",schedule:"Family Schedule",wheel:"Spin Wheel",rewards:"Rewards Center",shop:"Reward Shop"};
+function pageTitleFor(p){const map={home:"page_title_home",schedule:"page_title_schedule",wheel:"wheel_heading",rewards:"page_title_rewards",shop:"reward_shop"};return t(map[p]||"page_title_home")}
 document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.page));
-function go(p){document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));document.getElementById(p).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));pageTitle.textContent=titles[p];renderAll()}
+function go(p){document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));document.getElementById(p).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));pageTitle.dataset.page=p;pageTitle.textContent=pageTitleFor(p);renderAll()}
 function renderMemberBalances(){
   if(!currentUser){memberBalances.innerHTML="";return}
   const order=isParent()?["Jerry","Henrik","Mom","Dad"]:[currentUser.name];
-  memberBalances.innerHTML=order.map(name=>{const w=state.wallets[name]||{points:0,coins:0,color:"#9ca3af"};return `<div class="member-wallet"><div class="member-wallet-name"><span class="member-avatar" style="background:${w.color}"></span>${name}</div><div class="member-wallet-values"><span>⭐ ${w.points} Points</span><span>🪙 ${w.coins} Coins</span></div></div>`}).join("");
+  memberBalances.innerHTML=order.map(name=>{const w=state.wallets[name]||{points:0,coins:0,color:"#9ca3af"};return `<div class="member-wallet"><div class="member-wallet-name"><span class="member-avatar" style="background:${w.color}"></span>${name}</div><div class="member-wallet-values"><span>${t("points_label",{points:w.points})}</span><span>${t("coins_label",{coins:w.coins})}</span></div></div>`}).join("");
 }
 function renderAll(){renderMemberBalances();renderToday();renderSchedule();renderActivities();renderApprovals();renderHistory();renderShop()}
-function statusLabel(s){return s==="pending"?"Waiting for Parent Approval":s==="confirmed"?"Completed & Confirmed":"Not Completed"}
+function statusLabel(s){return s==="pending"?t("status_waiting_approval"):s==="confirmed"?t("status_completed_confirmed"):t("status_not_completed")}
 function statusClass(s){return s==="pending"?"status-pending":s==="confirmed"?"status-confirmed":"status-planned"}
 function categoryClass(c){return c==="work_school"?"cat-workschool":c==="spin_wheel"?"cat-wheel":"cat-fixed"}
-function categoryName(c){return c==="work_school"?"Work / School":c==="spin_wheel"?"Spin Wheel":c==="challenges"?"Challenges":"Activities"}
+function categoryName(c){return c==="work_school"?t("cat_work_school"):c==="spin_wheel"?t("cat_spin_wheel"):c==="challenges"?t("cat_challenges"):t("cat_activities")}
 function categoryColor(c){return c==="work_school"?"#4f7cff":c==="spin_wheel"?"#8b5cf6":"#39a96b"}
 function memberColor(m){return m==="Jerry"?"#3b82f6":m==="Henrik"?"#f97316":m==="Mom"?"#ec4899":m==="Dad"?"#14b8a6":"#8b5cf6"}
 function memberClass(m){return "member-"+String(m||"Family").toLowerCase().replace(/[^a-z0-9]+/g,"-")}
+function reminderLabel(v){const map={"10m":"reminder_10","30m":"reminder_30","1h":"reminder_1h","1d":"reminder_1d","none":"reminder_none"};return v?(map[v]?t(map[v]):v):"—"}
 
 function renderToday(){
   const weekdaySv=["Sön","Mån","Tis","Ons","Tor","Fre","Lör"];
@@ -757,8 +924,8 @@ function renderToday(){
   todayEvents.innerHTML=visible.length?visible.map(e=>{
     const dt=new Date(e.date+"T12:00:00"),vecka=isoWeekNumber(dt),dateLabel=`${weekdaySv[dt.getDay()]} ${dt.getDate()}/${dt.getMonth()+1}`;
     const canComplete=e.status==="planned"&&(!isChild()||e.member===currentUser.name||e.member==="Family");
-    return `<div class="event"><div class="event-left"><span class="dot" style="background:${memberColor(e.member)}"></span><div><strong>${e.title}</strong><div class="muted">${e.member} · Vecka ${vecka} · ${dateLabel} · ${e.time}${e.endTime?"–"+e.endTime:""}</div><div class="event-status ${statusClass(e.status)}">${statusLabel(e.status)}</div></div></div><div class="event-actions row"><span>⭐ ${e.points}</span>${canComplete?`<button class="btn btn-green complete-btn" onclick="markComplete(${e.id})">✓ Mark Complete</button>`:""}<button class="btn btn-ghost" onclick="showDetails(${e.id})">Details</button></div></div>`;
-  }).join(""):"<div class='muted'>No events today.</div>";
+    return `<div class="event"><div class="event-left"><span class="dot" style="background:${memberColor(e.member)}"></span><div><strong>${e.title}</strong><div class="muted">${e.member} · Vecka ${vecka} · ${dateLabel} · ${e.time}${e.endTime?"–"+e.endTime:""}</div><div class="event-status ${statusClass(e.status)}">${statusLabel(e.status)}</div></div></div><div class="event-actions row"><span>⭐ ${e.points}</span>${canComplete?`<button class="btn btn-green complete-btn" onclick="markComplete(${e.id})">${t("btn_mark_complete")}</button>`:""}<button class="btn btn-ghost" onclick="showDetails(${e.id})">${t("btn_details")}</button></div></div>`;
+  }).join(""):`<div class='muted'>${t("no_events_today")}</div>`;
 }
 function isoWeekNumber(date){const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));const day=d.getUTCDay()||7;d.setUTCDate(d.getUTCDate()+4-day);const ys=new Date(Date.UTC(d.getUTCFullYear(),0,1));return Math.ceil((((d-ys)/86400000)+1)/7)}
 function formatSwedishShort(date){const months=["jan","feb","mar","apr","maj","jun","jul","aug","sep","okt","nov","dec"];return `${date.getDate()} ${months[date.getMonth()]}`}
@@ -783,13 +950,13 @@ function showDetails(id){
   const map=googleMapsUrl(e.address,e.location);
   const addressText=e.address||e.location||"—";
   detailTitle.textContent=e.title;
-  detailContent.innerHTML=`<div class="detail-grid"><div class="label">Member</div><div>${escapeHtml(e.member)}</div><div class="label">Date & Time</div><div>${escapeHtml(e.date)} · ${escapeHtml(e.time)}${e.endTime?"–"+escapeHtml(e.endTime):""}</div><div class="label">Location</div><div>${escapeHtml(e.location||"—")}</div><div class="label">Address</div><div>${map?`<a href="${escapeHtml(map)}" target="_blank" rel="noopener" title="Open in Google Maps">${escapeHtml(addressText)}</a>`:escapeHtml(addressText)}</div><div class="label">Category</div><div>${escapeHtml(categoryName(e.category))}</div><div class="label">Points</div><div>⭐ ${escapeHtml(e.points)}</div><div class="label">Reminder</div><div>${escapeHtml(e.reminder||"—")}</div><div class="label">Details</div><div>${escapeHtml(e.description||"—").replace(/\n/g,"<br>")}</div></div><div class="link-btns">${map?`<a class="btn btn-primary" href="${escapeHtml(map)}" target="_blank" rel="noopener" style="text-decoration:none">📍 Open Google Maps</a>`:""}${e.web?`<a class="btn btn-green" href="${escapeHtml(e.web)}" target="_blank" rel="noopener" style="text-decoration:none">🌐 Open Website</a>`:""}${e.email?`<a class="btn btn-orange" href="mailto:${escapeHtml(e.email)}" style="text-decoration:none">✉️ Email</a>`:""}${isParent()?`<button class="btn btn-ghost" onclick="copyEvent(${e.id})">📋 Copy Event</button><button class="btn btn-ghost" onclick="editEvent(${e.id})">✏️ Edit</button><button class="btn" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca" onclick="deleteEvent(${e.id})">🗑️ Delete Event</button>`:""}</div>`;
+  detailContent.innerHTML=`<div class="detail-grid"><div class="label">${t("detail_member")}</div><div>${escapeHtml(e.member)}</div><div class="label">${t("detail_datetime")}</div><div>${escapeHtml(e.date)} · ${escapeHtml(e.time)}${e.endTime?"–"+escapeHtml(e.endTime):""}</div><div class="label">${t("detail_location")}</div><div>${escapeHtml(e.location||"—")}</div><div class="label">${t("detail_address")}</div><div>${map?`<a href="${escapeHtml(map)}" target="_blank" rel="noopener" title="Open in Google Maps">${escapeHtml(addressText)}</a>`:escapeHtml(addressText)}</div><div class="label">${t("detail_category")}</div><div>${escapeHtml(categoryName(e.category))}</div><div class="label">${t("detail_points")}</div><div>⭐ ${escapeHtml(e.points)}</div><div class="label">${t("detail_reminder")}</div><div>${escapeHtml(reminderLabel(e.reminder))}</div><div class="label">${t("detail_details")}</div><div>${escapeHtml(e.description||"—").replace(/\n/g,"<br>")}</div></div><div class="link-btns">${map?`<a class="btn btn-primary" href="${escapeHtml(map)}" target="_blank" rel="noopener" style="text-decoration:none">${t("link_open_maps")}</a>`:""}${e.web?`<a class="btn btn-green" href="${escapeHtml(e.web)}" target="_blank" rel="noopener" style="text-decoration:none">${t("link_open_website")}</a>`:""}${e.email?`<a class="btn btn-orange" href="mailto:${escapeHtml(e.email)}" style="text-decoration:none">${t("link_email")}</a>`:""}${isParent()?`<button class="btn btn-ghost" onclick="copyEvent(${e.id})">${t("btn_copy_event")}</button><button class="btn btn-ghost" onclick="editEvent(${e.id})">${t("btn_edit")}</button><button class="btn" style="background:#fee2e2;color:#b91c1c;border:1px solid #fecaca" onclick="deleteEvent(${e.id})">${t("btn_delete_event")}</button>`:""}</div>`;
   detailModal.classList.add("open");
 }
 function openEventModal(){
-  if(!currentUser){toast("Login required");return}
-  eventModalTitle.textContent="Add Schedule Event";eventModal.dataset.editId="";evTitle.value="";evMember.value=isChild()?currentUser.name:"Jerry";evMember.disabled=isChild();evCategory.value="activities";
-  const d=new Date();evDate.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;evTime.value="17:00";evEndTime.value="18:00";evPoints.value=10;evLocation.value="";evAddress.value="";evWeb.value="";evEmail.value="";evDescription.value="";evReminder.value="30 min before";evRepeat.value="none";evRepeatCount.value=4;toggleRepeatOptions();eventModal.classList.add("open");prepareMobileEventEditor();
+  if(!currentUser){toast(t("toast_login_required"));return}
+  eventModalTitle.textContent=t("add_event_title");eventModal.dataset.editId="";evTitle.value="";evMember.value=isChild()?currentUser.name:"Jerry";evMember.disabled=isChild();evCategory.value="activities";
+  const d=new Date();evDate.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;evTime.value="17:00";evEndTime.value="18:00";evPoints.value=10;evLocation.value="";evAddress.value="";evWeb.value="";evEmail.value="";evDescription.value="";evReminder.value="30m";evRepeat.value="none";evRepeatCount.value=4;toggleRepeatOptions();eventModal.classList.add("open");prepareMobileEventEditor();
 }
 const eventTextFields=["evTitle","evLocation","evAddress","evWeb","evEmail","evDescription"];
 function lockEventTextFields(){
@@ -810,12 +977,12 @@ function prepareMobileEventEditor(){
     el.addEventListener("keydown",unlock);
   });
 }
-function editEvent(id){if(!isParent()){toast("Parent account required");return}const e=state.events.find(x=>x.id===id);closeModal("detailModal");eventModalTitle.textContent="Edit Schedule Event";eventModal.dataset.editId=id;evMember.disabled=false;evTitle.value=e.title;evMember.value=e.member;evCategory.value=(e.category==="fixed"?"activities":e.category)||"activities";evDate.value=e.date;evTime.value=e.time;evEndTime.value=e.endTime||"";evPoints.value=e.points;evLocation.value=e.location||"";evAddress.value=e.address||"";evWeb.value=e.web||"";evEmail.value=e.email||"";evDescription.value=e.description||"";evReminder.value=e.reminder||"No reminder";evRepeat.value="none";evRepeatCount.value=4;toggleRepeatOptions();eventModal.classList.add("open");prepareMobileEventEditor()}
+function editEvent(id){if(!isParent()){toast(t("toast_parent_required"));return}const e=state.events.find(x=>x.id===id);closeModal("detailModal");eventModalTitle.textContent=t("edit_event_title");eventModal.dataset.editId=id;evMember.disabled=false;evTitle.value=e.title;evMember.value=e.member;evCategory.value=(e.category==="fixed"?"activities":e.category)||"activities";evDate.value=e.date;evTime.value=e.time;evEndTime.value=e.endTime||"";evPoints.value=e.points;evLocation.value=e.location||"";evAddress.value=e.address||"";evWeb.value=e.web||"";evEmail.value=e.email||"";evDescription.value=e.description||"";evReminder.value=e.reminder||"none";evRepeat.value="none";evRepeatCount.value=4;toggleRepeatOptions();eventModal.classList.add("open");prepareMobileEventEditor()}
 function copyEvent(id){
-  if(!isParent()){toast("Parent account required");return}
+  if(!isParent()){toast(t("toast_parent_required"));return}
   const e=state.events.find(x=>x.id===id);if(!e)return;
   closeModal("detailModal");
-  eventModalTitle.textContent="Copy Event — choose member";
+  eventModalTitle.textContent=t("copy_event_title");
   eventModal.dataset.editId="";
   evMember.disabled=false;
   evTitle.value=e.title;
@@ -831,23 +998,23 @@ function copyEvent(id){
   evWeb.value=e.web||"";
   evEmail.value=e.email||"";
   evDescription.value=e.description||"";
-  evReminder.value=e.reminder||"No reminder";
+  evReminder.value=e.reminder||"none";
   evRepeat.value="none";
   evRepeatCount.value=4;
   toggleRepeatOptions();
   eventModal.classList.add("open");
   prepareMobileEventEditor();
   setTimeout(()=>{try{evMember.focus({preventScroll:true})}catch(_){ }},50);
-  toast(`Copied from ${e.member}. Choose another member and save.`);
+  toast(t("toast_copied_from",{member:e.member}));
 }
 async function deleteEvent(id){
-  if(!isParent()){toast("Parent account required");return}
+  if(!isParent()){toast(t("toast_parent_required"));return}
   const e=state.events.find(x=>x.id===id);if(!e)return;
-  const note=e.status==="confirmed"?"\n\nThis event was already confirmed. Deleting it will NOT remove points that were already awarded.":"";
-  if(!confirm(`Delete “${e.title}” from the schedule?${note}`))return;
+  const note=e.status==="confirmed"?t("confirm_delete_event_note"):"";
+  if(!confirm(t("confirm_delete_event",{title:e.title,note})))return;
   const oldEvents=state.events.slice();
   state.events=state.events.filter(x=>x.id!==id);
-  try{await saveServerState();closeModal("detailModal");toast("Event deleted from NAS")}catch(err){state.events=oldEvents;renderAll();toast(err.message||"Delete failed")}
+  try{await saveServerState();closeModal("detailModal");toast(t("toast_event_deleted"))}catch(err){state.events=oldEvents;renderAll();toast(err.message||t("toast_delete_failed"))}
 }
 function toggleRepeatOptions(){
   const repeating=evRepeat && evRepeat.value!=="none";
@@ -873,18 +1040,18 @@ async function saveEvent(){
   try{
     if(document.activeElement && typeof document.activeElement.blur==="function") document.activeElement.blur();
     const title=evTitle.value.trim();
-    if(!title){toast("Enter activity name");evTitle.focus();return}
-    if(!evDate.value){toast("Choose a date");evDate.focus();return}
+    if(!title){toast(t("toast_enter_activity_name"));evTitle.focus();return}
+    if(!evDate.value){toast(t("toast_choose_date"));evDate.focus();return}
     const firstDate=new Date(evDate.value+"T12:00:00"),dayMap=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-    if(Number.isNaN(firstDate.getTime())){toast("Invalid date");return}
+    if(Number.isNaN(firstDate.getTime())){toast(t("toast_invalid_date"));return}
     const member=isChild()?currentUser.name:evMember.value;
     const baseData={title,member,category:evCategory.value,time:evTime.value,endTime:evEndTime.value,points:Number.isFinite(+evPoints.value)?+evPoints.value:0,status:"planned",color:memberColor(member),location:evLocation.value.trim(),address:evAddress.value.trim(),web:evWeb.value.trim(),email:evEmail.value.trim(),description:evDescription.value.trim(),reminder:evReminder.value};
     const editId=Number(eventModal.dataset.editId||0);
     let original=null,createdIds=[];
     if(editId){
-      if(!isParent()){toast("Parent account required");return}
+      if(!isParent()){toast(t("toast_parent_required"));return}
       const target=state.events.find(x=>Number(x.id)===editId);
-      if(!target){toast("This event could not be found. Please close and open it again.");return}
+      if(!target){toast(t("toast_event_not_found"));return}
       original={...target};
       const d=new Date(evDate.value+"T12:00:00");
       Object.assign(target,baseData,{date:evDate.value,day:dayMap[d.getDay()]});
@@ -900,58 +1067,58 @@ async function saveEvent(){
       }
     }
     state.events.sort((a,b)=>`${a.date||"9999-99-99"}T${a.time||"23:59"}`.localeCompare(`${b.date||"9999-99-99"}T${b.time||"23:59"}`)||Number(a.id||0)-Number(b.id||0));
-    if(btn){btn.disabled=true;btn.textContent="Saving…"}
+    if(btn){btn.disabled=true;btn.textContent=t("saving")}
     try{
       await saveServerState();
       closeModal("eventModal");
-      toast(editId?"Event saved on NAS":createdIds.length>1?`${createdIds.length} recurring activities added`:"Event saved on NAS");
+      toast(editId?t("toast_event_saved"):createdIds.length>1?t("toast_recurring_added",{n:createdIds.length}):t("toast_event_saved"));
     }catch(err){
       if(editId&&original){const target=state.events.find(x=>Number(x.id)===editId);if(target)Object.assign(target,original)}
       else if(createdIds.length) state.events=state.events.filter(x=>!createdIds.includes(Number(x.id)));
       renderAll();
-      toast(err?.message||"Save failed. Please try again.");
+      toast(err?.message||t("toast_save_failed"));
     }
   }catch(err){
     console.error("saveEvent failed",err);
-    toast(err?.message||"Save failed. Please try again.");
+    toast(err?.message||t("toast_save_failed"));
   }finally{
-    if(btn){btn.disabled=false;btn.textContent="Save"}
+    if(btn){btn.disabled=false;btn.textContent=t("btn_save")}
   }
 }
 function renderActivities(){activityList.innerHTML=state.activities.map((a,i)=>`<div class="activity-row"><input value="${a.name}" onchange="state.activities[${i}].name=this.value"><input type="number" value="${a.points}" onchange="state.activities[${i}].points=+this.value"><input type="number" value="${a.weight}" onchange="state.activities[${i}].weight=+this.value"><button class="btn btn-ghost" onclick="removeActivity(${i})">✕</button></div>`).join("")}
 async function removeActivity(i){if(!isParent())return;state.activities.splice(i,1);await saveServerState()}
 async function addActivity(){if(!isParent())return;state.activities.push({name:"New Activity",points:5,weight:10});await saveServerState()}
-function spinWheel(){const total=state.activities.reduce((s,a)=>s+(+a.weight||0),0);if(!total){toast("No activities");return}let r=Math.random()*total,chosen=state.activities[0];for(const a of state.activities){r-=a.weight;if(r<=0){chosen=a;break}}state.selected=chosen;selectedActivity.textContent=`${chosen.name} · ⭐ ${chosen.points}`;wheelObj.style.transform=`rotate(${720+Math.floor(Math.random()*720)}deg)`;toast(`Selected: ${chosen.name}`)}
-function addSelectedToSchedule(){if(!state.selected){toast("Spin first");return}openEventModal();evTitle.value=state.selected.name;evPoints.value=state.selected.points;evCategory.value="spin_wheel"}
-async function markComplete(id){const e=state.events.find(x=>x.id===id);if(!e||e.status!=="planned")return;if(isChild()&&e.member!==currentUser.name&&e.member!=="Family"){toast("Not your event");return}e.status="pending";await saveServerState();toast(`${e.title} is waiting for parent approval`)}
+function spinWheel(){const total=state.activities.reduce((s,a)=>s+(+a.weight||0),0);if(!total){toast(t("toast_no_activities"));return}let r=Math.random()*total,chosen=state.activities[0];for(const a of state.activities){r-=a.weight;if(r<=0){chosen=a;break}}state.selected=chosen;selectedActivity.textContent=`${chosen.name} · ⭐ ${chosen.points}`;wheelObj.style.transform=`rotate(${720+Math.floor(Math.random()*720)}deg)`;toast(t("toast_selected",{name:chosen.name}))}
+function addSelectedToSchedule(){if(!state.selected){toast(t("toast_spin_first"));return}openEventModal();evTitle.value=state.selected.name;evPoints.value=state.selected.points;evCategory.value="spin_wheel"}
+async function markComplete(id){const e=state.events.find(x=>x.id===id);if(!e||e.status!=="planned")return;if(isChild()&&e.member!==currentUser.name&&e.member!=="Family"){toast(t("toast_not_your_event"));return}e.status="pending";await saveServerState();toast(t("toast_waiting_approval",{title:e.title}))}
 function renderApprovals(){
   let pending=state.events.filter(e=>e.status==="pending");pendingCount.textContent=pending.length;
   const shown=isChild()?pending.filter(e=>e.member===currentUser.name||e.member==="Family"):pending;
-  approvalList.innerHTML=shown.length?shown.map(e=>`<div class="event"><div><strong>${e.member}: ${e.title}</strong><div class="muted">Reward ⭐ ${e.points}</div></div>${isParent()?`<div class="row"><button class="btn btn-green" onclick="approve(${e.id})">Confirm</button><button class="btn btn-ghost" onclick="reject(${e.id})">Reject</button></div>`:`<div class="event-status status-pending">Waiting for parent</div>`}</div>`).join(""):"<div class='muted'>No pending approvals.</div>";
-  if(homeApprovalList){const mine=isParent()?pending:shown;homeApprovalList.innerHTML=mine.length?mine.slice(0,3).map(e=>`<div class="home-approval-item"><div><strong>${e.member} · ${e.title}</strong><div class="muted">${isParent()?`Earn ⭐ ${e.points} after confirmation`:"Waiting for parent confirmation"}</div></div>${isParent()?`<div class="home-approval-actions"><button class="btn btn-green" onclick="approve(${e.id})">Confirm</button><button class="btn btn-ghost" onclick="reject(${e.id})">Reject</button></div>`:""}</div>`).join(""):"<div class='muted' style='margin-top:8px;font-size:12px'>Nothing waiting.</div>"}
+  approvalList.innerHTML=shown.length?shown.map(e=>`<div class="event"><div><strong>${e.member}: ${e.title}</strong><div class="muted">${t("reward_points_label",{points:e.points})}</div></div>${isParent()?`<div class="row"><button class="btn btn-green" onclick="approve(${e.id})">${t("confirm_label")}</button><button class="btn btn-ghost" onclick="reject(${e.id})">${t("reject_label")}</button></div>`:`<div class="event-status status-pending">${t("waiting_for_parent")}</div>`}</div>`).join(""):`<div class='muted'>${t("no_pending_approvals")}</div>`;
+  if(homeApprovalList){const mine=isParent()?pending:shown;homeApprovalList.innerHTML=mine.length?mine.slice(0,3).map(e=>`<div class="home-approval-item"><div><strong>${e.member} · ${e.title}</strong><div class="muted">${isParent()?t("earn_after_confirmation",{points:e.points}):t("waiting_parent_confirmation")}</div></div>${isParent()?`<div class="home-approval-actions"><button class="btn btn-green" onclick="approve(${e.id})">${t("confirm_label")}</button><button class="btn btn-ghost" onclick="reject(${e.id})">${t("reject_label")}</button></div>`:""}</div>`).join(""):`<div class='muted' style='margin-top:8px;font-size:12px'>${t("nothing_waiting")}</div>`}
 }
-async function approve(id){if(!isParent()){toast("Parent account required");return}const e=state.events.find(x=>x.id===id);if(!e||e.status!=="pending")return;e.status="confirmed";if(state.wallets[e.member]){state.wallets[e.member].points+=+e.points;state.history.unshift(`+${e.points} Points · ${e.member} · ${e.title}`)}await saveServerState();toast("Activity confirmed")}
-async function reject(id){if(!isParent()){toast("Parent account required");return}const e=state.events.find(x=>x.id===id);if(!e)return;e.status="planned";await saveServerState();toast("Returned to Not Completed")}
-async function exchangePointsFn(){if(!isParent()){toast("Parent account required");return}const member=exchangeMember.value,p=+exchangePoints.value,w=state.wallets[member];if(p<=0||p%10!==0){toast("Use multiples of 10");return}if(!w||w.points<p){toast(`${member} does not have enough points`);return}const c=p/10;w.points-=p;w.coins+=c;state.history.unshift(`-${p} Points · ${member} · Exchanged for ${c} Coins`);await saveServerState();toast(`${member} +${c} Coins`)}
+async function approve(id){if(!isParent()){toast(t("toast_parent_required"));return}const e=state.events.find(x=>x.id===id);if(!e||e.status!=="pending")return;e.status="confirmed";if(state.wallets[e.member]){state.wallets[e.member].points+=+e.points;state.history.unshift(`+${e.points} Points · ${e.member} · ${e.title}`)}await saveServerState();toast(t("toast_activity_confirmed"))}
+async function reject(id){if(!isParent()){toast(t("toast_parent_required"));return}const e=state.events.find(x=>x.id===id);if(!e)return;e.status="planned";await saveServerState();toast(t("toast_returned_not_completed"))}
+async function exchangePointsFn(){if(!isParent()){toast(t("toast_parent_required"));return}const member=exchangeMember.value,p=+exchangePoints.value,w=state.wallets[member];if(p<=0||p%10!==0){toast(t("toast_use_multiples_10"));return}if(!w||w.points<p){toast(t("toast_not_enough_points",{member}));return}const c=p/10;w.points-=p;w.coins+=c;state.history.unshift(`-${p} Points · ${member} · Exchanged for ${c} Coins`);await saveServerState();toast(t("toast_coins_added",{member,coins:c}))}
 function renderHistory(){history.innerHTML=state.history.map(x=>`<div class="event">${x}</div>`).join("")}
-function renderShop(){if(!currentUser)return;const member=isChild()?currentUser.name:(shopMember?.value||"Jerry"),coins=state.wallets[member]?.coins||0;shopGrid.innerHTML=state.rewards.map((r,i)=>`<div class="reward"><div class="emoji">${r.emoji}</div><strong>${r.name}</strong><div class="price">🪙 ${r.price}</div><div class="muted" style="margin-bottom:8px">${member}: 🪙 ${coins}</div><button class="btn ${coins>=r.price?'btn-orange':'btn-ghost'}" onclick="redeem(${i})">${coins>=r.price?'Redeem':'Not enough coins'}</button></div>`).join("")}
-async function redeem(i){const member=isChild()?currentUser.name:(shopMember?.value||"Jerry"),w=state.wallets[member],r=state.rewards[i];if(!w||w.coins<r.price){toast("Not enough coins");return}w.coins-=r.price;state.history.unshift(`-${r.price} Coins · ${member} · Redeemed ${r.name}`);await saveServerState();toast(`${member} redeemed: ${r.name}`)}
-function openRewardModal(){if(!isParent()){toast("Parent account required");return}rewardModal.classList.add("open")}
-async function saveReward(){const n=rwName.value.trim();if(!n){toast("Enter reward name");return}state.rewards.push({name:n,emoji:rwEmoji.value||"🎁",price:+rwPrice.value});await saveServerState();closeModal("rewardModal");rwName.value="";toast("Reward added")}
+function renderShop(){if(!currentUser)return;const member=isChild()?currentUser.name:(shopMember?.value||"Jerry"),coins=state.wallets[member]?.coins||0;shopGrid.innerHTML=state.rewards.map((r,i)=>`<div class="reward"><div class="emoji">${r.emoji}</div><strong>${r.name}</strong><div class="price">🪙 ${r.price}</div><div class="muted" style="margin-bottom:8px">${member}: 🪙 ${coins}</div><button class="btn ${coins>=r.price?'btn-orange':'btn-ghost'}" onclick="redeem(${i})">${coins>=r.price?t("redeem_btn"):t("not_enough_coins_btn")}</button></div>`).join("")}
+async function redeem(i){const member=isChild()?currentUser.name:(shopMember?.value||"Jerry"),w=state.wallets[member],r=state.rewards[i];if(!w||w.coins<r.price){toast(t("toast_not_enough_coins"));return}w.coins-=r.price;state.history.unshift(`-${r.price} Coins · ${member} · Redeemed ${r.name}`);await saveServerState();toast(t("toast_redeemed",{member,name:r.name}))}
+function openRewardModal(){if(!isParent()){toast(t("toast_parent_required"));return}rewardModal.classList.add("open")}
+async function saveReward(){const n=rwName.value.trim();if(!n){toast(t("toast_enter_reward_name"));return}state.rewards.push({name:n,emoji:rwEmoji.value||"🎁",price:+rwPrice.value});await saveServerState();closeModal("rewardModal");rwName.value="";toast(t("toast_reward_added"))}
 function closeModal(id){document.getElementById(id).classList.remove("open");if(id==="eventModal"){lockEventTextFields();document.body.classList.remove("modal-lock")}}
-function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2000)}
+function toast(m){const el=document.getElementById("toast");el.textContent=m;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2000)}
 
-function openImportModal(){if(!isParent()){toast("Parent account required");return}importRows=[];importPreviewWrap.innerHTML="";ocrText.value="";ocrStatus.textContent="No image recognized yet.";scheduleImage.value="";importImagePreview.style.display="none";importModal.classList.add("open")}
-function previewImportImage(ev){const file=ev.target.files?.[0];if(!file)return;importImagePreview.src=URL.createObjectURL(file);importImagePreview.style.display="block";ocrStatus.textContent="Image selected. Click Recognize Image."}
-async function recognizeScheduleImage(){const file=scheduleImage.files?.[0];if(!file){toast("Choose an image first");return}if(!window.Tesseract){ocrStatus.textContent="OCR library could not load.";return}try{ocrStatus.textContent="Recognizing…";const result=await Tesseract.recognize(file,"eng+swe",{logger:m=>{if(m.status&&typeof m.progress==="number")ocrStatus.textContent=`${m.status} · ${Math.round(m.progress*100)}%`}});ocrText.value=result.data.text||"";ocrStatus.textContent="Recognition finished."}catch(err){console.error(err);ocrStatus.textContent="Recognition failed."}}
-function parseOCRText(){const raw=ocrText.value.trim();if(!raw){toast("No OCR text to parse");return}const lines=raw.split(/\n+/).map(x=>x.trim()).filter(Boolean),timeRe=/\b([01]?\d|2[0-3])[:.]([0-5]\d)\s*(?:[-–—to]+\s*([01]?\d|2[0-3])[:.]([0-5]\d))?/i,dateRe=/\b(20\d{2})[-\/.](\d{1,2})[-\/.](\d{1,2})\b/;importRows=[];for(const line of lines){const tm=line.match(timeRe);if(!tm)continue;const dm=line.match(dateRe),start=`${String(tm[1]).padStart(2,"0")}:${tm[2]}`,end=tm[3]?`${String(tm[3]).padStart(2,"0")}:${tm[4]}`:"",date=dm?`${dm[1]}-${String(dm[2]).padStart(2,"0")}-${String(dm[3]).padStart(2,"0")}`:importDefaultDate.value;let title=line.replace(timeRe,"").replace(dateRe,"").replace(/^[\s\-–—:|]+|[\s\-–—:|]+$/g,"").trim()||"Imported Schedule";importRows.push({title,start,end,date,member:importMember.value,category:importCategory.value})}if(!importRows.length)importRows=[{title:lines[0]||"Imported Schedule",start:"09:00",end:"",date:importDefaultDate.value,member:importMember.value,category:importCategory.value}];renderImportPreview()}
-function renderImportPreview(){importRows.sort((a,b)=>`${a.date||"9999-99-99"}T${a.start||"23:59"}`.localeCompare(`${b.date||"9999-99-99"}T${b.start||"23:59"}`));importPreviewWrap.innerHTML=`<table class="import-preview"><thead><tr><th>Use</th><th>Activity</th><th>Date</th><th>Time</th><th>Category</th></tr></thead><tbody>${importRows.map((r,i)=>`<tr><td><input type="checkbox" id="impUse${i}" checked></td><td><input value="${r.title.replace(/"/g,"&quot;")}" onchange="importRows[${i}].title=this.value"></td><td><input type="date" value="${r.date}" onchange="importRows[${i}].date=this.value"></td><td><input type="time" value="${r.start}" onchange="importRows[${i}].start=this.value"></td><td>${categoryName(r.category)}</td></tr>`).join("")}</tbody></table>`}
-async function confirmOCRImport(){if(!importRows.length){toast("Create import preview first");return}const dayMap=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];let count=0;importRows.forEach((r,i)=>{if(!document.getElementById(`impUse${i}`)?.checked)return;const d=new Date(r.date+"T12:00:00");state.events.push({id:Date.now()+i,title:r.title,member:r.member,category:r.category,date:r.date,day:dayMap[d.getDay()],time:r.start,endTime:r.end,points:0,status:"planned",color:memberColor(r.member),location:"",address:"",web:"",email:"",description:"Imported from schedule image",reminder:"No reminder"});count++});await saveServerState();closeModal("importModal");go("schedule");toast(`${count} schedule item(s) imported`)}
+function openImportModal(){if(!isParent()){toast(t("toast_parent_required"));return}importRows=[];importPreviewWrap.innerHTML="";ocrText.value="";ocrStatus.textContent=t("ocr_status_default");scheduleImage.value="";importImagePreview.style.display="none";importModal.classList.add("open")}
+function previewImportImage(ev){const file=ev.target.files?.[0];if(!file)return;importImagePreview.src=URL.createObjectURL(file);importImagePreview.style.display="block";ocrStatus.textContent=t("toast_image_selected")}
+async function recognizeScheduleImage(){const file=scheduleImage.files?.[0];if(!file){toast(t("toast_choose_image"));return}if(!window.Tesseract){ocrStatus.textContent=t("toast_ocr_load_failed");return}try{ocrStatus.textContent=t("toast_recognizing");const result=await Tesseract.recognize(file,"eng+swe",{logger:m=>{if(m.status&&typeof m.progress==="number")ocrStatus.textContent=`${m.status} · ${Math.round(m.progress*100)}%`}});ocrText.value=result.data.text||"";ocrStatus.textContent=t("toast_recognition_finished")}catch(err){console.error(err);ocrStatus.textContent=t("toast_recognition_failed")}}
+function parseOCRText(){const raw=ocrText.value.trim();if(!raw){toast(t("toast_no_ocr_text"));return}const lines=raw.split(/\n+/).map(x=>x.trim()).filter(Boolean),timeRe=/\b([01]?\d|2[0-3])[:.]([0-5]\d)\s*(?:[-–—to]+\s*([01]?\d|2[0-3])[:.]([0-5]\d))?/i,dateRe=/\b(20\d{2})[-\/.](\d{1,2})[-\/.](\d{1,2})\b/;importRows=[];for(const line of lines){const tm=line.match(timeRe);if(!tm)continue;const dm=line.match(dateRe),start=`${String(tm[1]).padStart(2,"0")}:${tm[2]}`,end=tm[3]?`${String(tm[3]).padStart(2,"0")}:${tm[4]}`:"",date=dm?`${dm[1]}-${String(dm[2]).padStart(2,"0")}-${String(dm[3]).padStart(2,"0")}`:importDefaultDate.value;let title=line.replace(timeRe,"").replace(dateRe,"").replace(/^[\s\-–—:|]+|[\s\-–—:|]+$/g,"").trim()||"Imported Schedule";importRows.push({title,start,end,date,member:importMember.value,category:importCategory.value})}if(!importRows.length)importRows=[{title:lines[0]||"Imported Schedule",start:"09:00",end:"",date:importDefaultDate.value,member:importMember.value,category:importCategory.value}];renderImportPreview()}
+function renderImportPreview(){importRows.sort((a,b)=>`${a.date||"9999-99-99"}T${a.start||"23:59"}`.localeCompare(`${b.date||"9999-99-99"}T${b.start||"23:59"}`));importPreviewWrap.innerHTML=`<table class="import-preview"><thead><tr><th>${t("table_use")}</th><th>${t("table_activity")}</th><th>${t("table_date")}</th><th>${t("table_time")}</th><th>${t("table_category")}</th></tr></thead><tbody>${importRows.map((r,i)=>`<tr><td><input type="checkbox" id="impUse${i}" checked></td><td><input value="${r.title.replace(/"/g,"&quot;")}" onchange="importRows[${i}].title=this.value"></td><td><input type="date" value="${r.date}" onchange="importRows[${i}].date=this.value"></td><td><input type="time" value="${r.start}" onchange="importRows[${i}].start=this.value"></td><td>${categoryName(r.category)}</td></tr>`).join("")}</tbody></table>`}
+async function confirmOCRImport(){if(!importRows.length){toast(t("toast_create_preview_first"));return}const dayMap=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];let count=0;importRows.forEach((r,i)=>{if(!document.getElementById(`impUse${i}`)?.checked)return;const d=new Date(r.date+"T12:00:00");state.events.push({id:Date.now()+i,title:r.title,member:r.member,category:r.category,date:r.date,day:dayMap[d.getDay()],time:r.start,endTime:r.end,points:0,status:"planned",color:memberColor(r.member),location:"",address:"",web:"",email:"",description:"Imported from schedule image",reminder:"none"});count++});await saveServerState();closeModal("importModal");go("schedule");toast(t("toast_ocr_imported",{n:count}))}
 
 let calendarImportRows=[];
 function openCalendarImportModal(){
-  if(!isParent()){toast("Parent account required");return}
-  calendarImportRows=[];calendarFile.value="";calendarUrl.value="";calendarImportPreviewWrap.innerHTML="";calendarImportStatus.textContent="Choose an .ics/.ical file or enter a calendar URL.";calendarImportModal.classList.add("open")
+  if(!isParent()){toast(t("toast_parent_required"));return}
+  calendarImportRows=[];calendarFile.value="";calendarUrl.value="";calendarImportPreviewWrap.innerHTML="";calendarImportStatus.textContent=t("calendar_status_default");calendarImportModal.classList.add("open")
 }
 function icsUnescape(v=""){return v.replace(/\\n/gi,"\n").replace(/\\,/g,",").replace(/\\;/g,";").replace(/\\\\/g,"\\")}
 function parseICSDate(value,params=""){
@@ -979,15 +1146,15 @@ async function readCalendarFile(ev){
   const file=ev.target.files?.[0];if(!file)return;
   try{
     const text=await file.text();calendarImportRows=parseICS(text);
-    if(!calendarImportRows.length){calendarImportStatus.textContent="No calendar events were found in this file.";calendarImportPreviewWrap.innerHTML="";return}
-    calendarImportStatus.textContent=`${calendarImportRows.length} event(s) found. Review before importing.`;renderCalendarImportPreview()
-  }catch(err){console.error(err);calendarImportStatus.textContent="Could not read this calendar file."}
+    if(!calendarImportRows.length){calendarImportStatus.textContent=t("toast_no_calendar_events_file");calendarImportPreviewWrap.innerHTML="";return}
+    calendarImportStatus.textContent=t("toast_calendar_events_found",{n:calendarImportRows.length});renderCalendarImportPreview()
+  }catch(err){console.error(err);calendarImportStatus.textContent=t("toast_calendar_file_read_failed")}
 }
 async function readCalendarUrl(){
   let url=calendarUrl.value.trim();
-  if(!url){toast("Enter a calendar URL first");return}
+  if(!url){toast(t("toast_enter_calendar_url"));return}
   if(/^webcal:\/\//i.test(url)) url="https://"+url.slice(9);
-  calendarImportStatus.textContent="Loading calendar URL…";
+  calendarImportStatus.textContent=t("toast_loading_calendar_url");
   calendarImportPreviewWrap.innerHTML="";
   calendarImportRows=[];
   try{
@@ -996,12 +1163,12 @@ async function readCalendarUrl(){
     if(data?.error) throw new Error(data.error);
     const text=data.ics||"";
     calendarImportRows=parseICS(text);
-    if(!calendarImportRows.length){calendarImportStatus.textContent="The URL loaded, but no calendar events were found.";return}
-    calendarImportStatus.textContent=`${calendarImportRows.length} event(s) found from URL. Review before importing.`;
+    if(!calendarImportRows.length){calendarImportStatus.textContent=t("toast_calendar_url_no_events");return}
+    calendarImportStatus.textContent=t("toast_calendar_events_found_url",{n:calendarImportRows.length});
     renderCalendarImportPreview();
   }catch(err){
     console.error(err);
-    calendarImportStatus.textContent=err.message||"Could not load this calendar URL.";
+    calendarImportStatus.textContent=err.message||t("toast_calendar_url_load_failed");
   }
 }
 function detectCalendarOwner(row){
@@ -1010,9 +1177,9 @@ function detectCalendarOwner(row){
   // Player-number matching is intentionally strict so ordinary times/dates such as 18:00 or 2026-08-15 are not mistaken for a child.
   const numberMarker=n=>new RegExp(`(?:#\\s*${n}\\b|\\b(?:no\\.?|nr\\.?|number|player|spelare|jersey)\\s*[:#-]?\\s*${n}\\b|\\(${n}\\))`,`i`).test(text);
   const hasJerry=hasJerryName||numberMarker(15),hasHenrik=hasHenrikName||numberMarker(18);
-  if(hasJerry&&hasHenrik)return {member:"Family",reason:"Jerry + Henrik"};
-  if(hasJerry)return {member:"Jerry",reason:hasJerryName?"name Jerry":"player #15"};
-  if(hasHenrik)return {member:"Henrik",reason:hasHenrikName?"name Henrik":"player #18"};
+  if(hasJerry&&hasHenrik)return {member:"Family",reason:"reason_both"};
+  if(hasJerry)return {member:"Jerry",reason:hasJerryName?"reason_jerry_name":"reason_jerry_number"};
+  if(hasHenrik)return {member:"Henrik",reason:hasHenrikName?"reason_henrik_name":"reason_henrik_number"};
   return {member:calendarImportMember.value||"Family",reason:"default"};
 }
 function applyCalendarOwnerDetection(){
@@ -1030,21 +1197,21 @@ function renderCalendarImportPreview(){
   applyCalendarOwnerDetection();
   sortCalendarImportRows();
   const members=["Jerry","Henrik","Mom","Dad","Family"];
-  calendarImportStatus.textContent=`${calendarImportRows.length} event(s) loaded. All events are shown below in date and time order.`;
-  calendarImportPreviewWrap.innerHTML=`<table class="import-preview"><thead><tr><th>Use</th><th>Event</th><th>Owner</th><th>Date</th><th>Time</th><th>Location</th></tr></thead><tbody>${calendarImportRows.map((r,i)=>`<tr><td><input type="checkbox" id="calUse${i}" checked></td><td><input value="${String(r.title).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}" onchange="calendarImportRows[${i}].title=this.value"></td><td><select onchange="calendarImportRows[${i}].member=this.value;calendarImportRows[${i}].ownerReason='manual'">${members.map(m=>`<option ${m===r.member?"selected":""}>${m}</option>`).join("")}</select><div class="muted" style="margin-top:4px">${r.ownerReason==="default"?"Default":r.ownerReason==="manual"?"Manual":`Detected: ${r.ownerReason}`}</div></td><td>${r.date}</td><td>${r.allDay?"All day":`${r.start}${r.end?"–"+r.end:""}`}</td><td>${String(r.location||"—").replace(/&/g,"&amp;").replace(/</g,"&lt;")}</td></tr>`).join("")}</tbody></table>`
+  calendarImportStatus.textContent=t("toast_calendar_events_loaded",{n:calendarImportRows.length});
+  calendarImportPreviewWrap.innerHTML=`<table class="import-preview"><thead><tr><th>${t("table_use")}</th><th>${t("table_event")}</th><th>${t("table_owner")}</th><th>${t("table_date")}</th><th>${t("table_time")}</th><th>${t("table_location")}</th></tr></thead><tbody>${calendarImportRows.map((r,i)=>`<tr><td><input type="checkbox" id="calUse${i}" checked></td><td><input value="${String(r.title).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}" onchange="calendarImportRows[${i}].title=this.value"></td><td><select onchange="calendarImportRows[${i}].member=this.value;calendarImportRows[${i}].ownerReason='manual'">${members.map(m=>`<option ${m===r.member?"selected":""}>${m}</option>`).join("")}</select><div class="muted" style="margin-top:4px">${r.ownerReason==="default"?t("owner_default"):r.ownerReason==="manual"?t("owner_manual"):t("owner_detected",{reason:t(r.ownerReason)})}</div></td><td>${r.date}</td><td>${r.allDay?t("all_day"):`${r.start}${r.end?"–"+r.end:""}`}</td><td>${String(r.location||"—").replace(/&/g,"&amp;").replace(/</g,"&lt;")}</td></tr>`).join("")}</tbody></table>`
 }
 async function confirmCalendarImport(){
-  if(!calendarImportRows.length){toast("Choose a calendar file or load a calendar URL first");return}
+  if(!calendarImportRows.length){toast(t("toast_choose_calendar_first"));return}
   const category=calendarImportCategory.value,dayMap=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];let count=0,base=Date.now()*100;
   calendarImportRows.forEach((r,i)=>{
     if(!document.getElementById(`calUse${i}`)?.checked)return;
     // Import every selected calendar row. Time overlaps are deliberately ignored.
     // No event is removed, merged, replaced, hidden, or skipped because another event has the same time.
     const member=r.member||calendarImportMember.value||"Family";
-    const d=new Date(r.date+"T12:00:00");state.events.push({id:base+i,title:r.title,member,category,date:r.date,day:dayMap[d.getDay()],time:r.allDay?"00:00":r.start,endTime:r.end||"",points:0,status:"planned",color:memberColor(member),location:r.location||"",address:r.location||"",web:r.url||"",email:"",description:[r.description,"Imported from calendar (.ics / URL)"].filter(Boolean).join("\n\n"),reminder:"No reminder",externalUid:r.uid,allDay:!!r.allDay});count++
+    const d=new Date(r.date+"T12:00:00");state.events.push({id:base+i,title:r.title,member,category,date:r.date,day:dayMap[d.getDay()],time:r.allDay?"00:00":r.start,endTime:r.end||"",points:0,status:"planned",color:memberColor(member),location:r.location||"",address:r.location||"",web:r.url||"",email:"",description:[r.description,"Imported from calendar (.ics / URL)"].filter(Boolean).join("\n\n"),reminder:"none",externalUid:r.uid,allDay:!!r.allDay});count++
   });
   state.events.sort((a,b)=>`${a.date||"9999-99-99"}T${a.time||"23:59"}`.localeCompare(`${b.date||"9999-99-99"}T${b.time||"23:59"}`)||Number(a.id||0)-Number(b.id||0));
-  try{await saveServerState();closeModal("calendarImportModal");go("schedule");toast(`${count} calendar event(s) imported in time order`)}catch(err){toast(err.message||"Import failed")}
+  try{await saveServerState();closeModal("calendarImportModal");go("schedule");toast(t("toast_calendar_imported",{n:count}))}catch(err){toast(err.message||t("toast_import_failed"))}
 }
 
 boot();
