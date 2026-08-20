@@ -538,7 +538,7 @@ body.modal-lock{overflow:hidden}
         <input id="calendarUrl" style="flex:1;min-width:240px" inputmode="url" placeholder="https://... or webcal://...">
         <button class="btn btn-green" type="button" onclick="readCalendarUrl()" data-i18n="btn_load_url">Load URL</button>
       </div>
-      <div class="muted" style="margin-top:6px" data-i18n="calendar_url_note">Use a public/private calendar subscription URL that returns iCalendar (.ics) data. The URL is fetched by your NAS.</div>
+      <div class="muted" style="margin-top:6px" data-i18n="calendar_url_note">Use a public/private calendar subscription URL that returns iCalendar (.ics) data. The URL is fetched securely by a Supabase Edge Function.</div>
     </div>
     <div id="calendarImportStatus" class="ocr-status" data-i18n="calendar_status_default">Choose an .ics/.ical file or enter a calendar URL.</div>
     <div id="calendarImportPreviewWrap"></div>
@@ -631,7 +631,7 @@ const I18N={
     import_calendar_desc:"Import a standard .ics / .ical file, or paste a public calendar subscription URL from Google Calendar, Apple/iCloud, Outlook or another calendar service. Review the events before saving them to the family schedule.",
     import_calendar_owner_note:"Auto owner detection: Jerry = 15 · Henrik = 18. Names are checked first; player-number markers such as #15, No. 15, Nr 18, Player 18 or Spelare 18 are also recognized. If both are found, the event is marked Family. You can change the owner in the preview.",
     calendar_option1:"Option 1 · Calendar file",calendar_option2:"Option 2 · Calendar URL",btn_load_url:"Load URL",
-    calendar_url_note:"Use a public/private calendar subscription URL that returns iCalendar (.ics) data. The URL is fetched by your NAS.",
+    calendar_url_note:"Use a public/private calendar subscription URL that returns iCalendar (.ics) data. The URL is fetched securely by a Supabase Edge Function.",
     calendar_status_default:"Choose an .ics/.ical file or enter a calendar URL.",
     add_reward_title:"Add Shop Reward",reward_name_ph:"Reward name",emoji_ph:"Emoji",
     pin_settings_title:"🔐 PIN Settings",change_my_pin:"Change My PIN",current_pin_ph:"Current PIN",new_pin_ph:"New 6-digit PIN",confirm_pin_ph:"Confirm new PIN",
@@ -701,7 +701,7 @@ const I18N={
     import_calendar_desc:"导入标准 .ics / .ical 文件，或粘贴来自 Google 日历、Apple/iCloud、Outlook 或其他日历服务的公开订阅链接。保存到家庭日程前请先核对事项。",
     import_calendar_owner_note:"自动识别归属人：Jerry = 15 号 · Henrik = 18 号。优先匹配姓名；也支持识别 #15、No.15、Nr 18、Player 18、Spelare 18 等球衣号码标记。若同时匹配到两人，则标记为“全家”。你也可以在预览中手动更改归属人。",
     calendar_option1:"方式一 · 日历文件",calendar_option2:"方式二 · 日历链接",btn_load_url:"加载链接",
-    calendar_url_note:"使用可返回 iCalendar (.ics) 数据的公开/私密日历订阅链接，该链接会通过你的 NAS 获取。",
+    calendar_url_note:"使用可返回 iCalendar (.ics) 数据的公开/私密日历订阅链接，该链接会通过 Supabase Edge Function 安全获取。",
     calendar_status_default:"请选择 .ics/.ical 文件或输入日历链接。",
     add_reward_title:"添加商店奖励",reward_name_ph:"奖励名称",emoji_ph:"表情符号",
     pin_settings_title:"🔐 PIN 设置",change_my_pin:"修改我的 PIN 码",current_pin_ph:"当前 PIN 码",new_pin_ph:"新的 6 位 PIN 码",confirm_pin_ph:"确认新 PIN 码",
