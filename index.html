@@ -789,7 +789,7 @@ function showDetails(id){
 function openEventModal(){
   if(!currentUser){toast("Login required");return}
   eventModalTitle.textContent="Add Schedule Event";eventModal.dataset.editId="";evTitle.value="";evMember.value=isChild()?currentUser.name:"Jerry";evMember.disabled=isChild();evCategory.value="activities";
-  const d=new Date();evDate.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;evTime.value="17:00";evEndTime.value="18:00";evPoints.value=10;evLocation.value="";evAddress.value="";evWeb.value="";evEmail.value="";evDescription.value="";evReminder.value="30 min before";evRepeat.value="none";evRepeatCount.value=4;toggleRepeatOptions();eventModal.classList.add("open");
+  const d=new Date();evDate.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;evTime.value="17:00";evEndTime.value="18:00";evPoints.value=10;evLocation.value="";evAddress.value="";evWeb.value="";evEmail.value="";evDescription.value="";evReminder.value="30 min before";evRepeat.value="none";evRepeatCount.value=4;toggleRepeatOptions();eventModal.classList.add("open");prepareMobileEventEditor();
 }
 const eventTextFields=["evTitle","evLocation","evAddress","evWeb","evEmail","evDescription"];
 function lockEventTextFields(){
